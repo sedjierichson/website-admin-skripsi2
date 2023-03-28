@@ -25,44 +25,54 @@
     <div class="container">
         <div class="row text-center g-3 justify-content-center">
             <div class="col-md-4">
-                <div class="card bg-success text-light mx-auto">
-                    <div class="card-body text-center">
-                        <img src="{{ url('/img/calendar.png') }}" class="mx-auto d-block" width="100" alt="">
-                        <h3 class="mt-4">Data Absensi</h3>
+                <a href="absensi" class="text-decoration-none">
+                    <div class="card bg-success text-light h-100">
+                        <div class="card-body text-center">
+                            <img src="{{ url('/img/calendar.png') }}" class="mx-auto d-block" width="100" alt="">
+                            <h3 class="mt-4">Data Absensi</h3>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-md-4">
-                <div class="card bg-warning text-light h-100">
-                    <div class="card-body text-center">
-                        <img src="{{ url('/img/bluetooth.png') }}" class="mx-auto d-block" width="100" alt="">
-                        <h3 class="mt-4">Beacon</h3>
+                <a href="" class="text-decoration-none">
+                    <div class="card bg-warning text-light h-100">
+                        <div class="card-body text-center">
+                            <img src="{{ url('/img/bluetooth.png') }}" class="mx-auto d-block" width="100" alt="">
+                            <h3 class="mt-4">Beacon</h3>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-md-4">
-                <div class="card bg-info text-light h-100">
-                    <div class="card-body text-center">
-                        <img src="{{ url('/img/form.png') }}" class="mx-auto d-block" width="100" alt="">
-                        <h3 class="mt-4">Data Perizinan</h3>
+                <a href="" class="text-decoration-none">
+                    <div class="card bg-info text-light h-100">
+                        <div class="card-body text-center">
+                            <img src="{{ url('/img/form.png') }}" class="mx-auto d-block" width="100" alt="">
+                            <h3 class="mt-4">Data Perizinan</h3>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-md-4">
-                <div class="card bg-dark text-light h-100">
-                    <div class="card-body text-center">
-                        <img src="{{ url('/img/office-building.png') }}" class="mx-auto d-block" width="100" alt="">
-                        <h3 class="mt-4">Data Kantor</h3>
+                <a href="" class="text-decoration-none">
+                    <div class="card bg-dark text-light h-100">
+                        <div class="card-body text-center">
+                            <img src="{{ url('/img/office-building.png') }}" class="mx-auto d-block" width="100" alt="">
+                            <h3 class="mt-4">Data Kantor</h3>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-md-4">
-                <div class="card bg-danger text-light h-100">
-                    <div class="card-body text-center">
-                        <img src="{{ url('/img/lock.png') }}" class="mx-auto d-block" width="100" alt="">
-                        <h3 class="mt-4">Security Code Login</h3>
+                <a href="" class="text-decoration-none">
+                    <div class="card bg-danger text-light h-100">
+                        <div class="card-body text-center">
+                            <img src="{{ url('/img/lock.png') }}" class="mx-auto d-block" width="100" alt="">
+                            <h3 class="mt-4">Security Code Login</h3>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
     </div>

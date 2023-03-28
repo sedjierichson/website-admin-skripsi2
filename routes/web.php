@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AbsensiController;
+use App\Http\Controllers\KantorController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,3 +25,7 @@ Route::post('/login', [LoginController::class, 'loginAkun']);
 Route::get('/logout', [LoginController::class, 'logout']);
 
 Route::get('/home', [HomeController::class, "index"]);
+
+Route::resource('presensi', AbsensiController::class);
+
+Route::resource('kantor', KantorController::class);

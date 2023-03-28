@@ -16,18 +16,18 @@
           </li>
 
           <li class="nav-item ms-3">
-            <a class="nav-link {{ ($navbar === "absensi") ? 'active' : '' }}" aria-current="page" href="/Absensi">Absensi</a>
+            <a class="nav-link {{ ($navbar === "absensi") ? 'active' : '' }}" aria-current="page" href="/presensi">Presensi</a>
           </li>
 
           <li class="nav-item ms-3">
-            <a class="nav-link {{ ($navbar === "kantor") ? 'active' : '' }}" aria-current="page" href="/Kantor">Kantor</a>
+            <a class="nav-link {{ ($navbar === "kantor") ? 'active' : '' }}" aria-current="page" href="/kantor">Kantor</a>
           </li>
 
           <li class="nav-item ms-3">
-            <a class="nav-link {{ ($navbar === "perizinan") ? 'active' : '' }}" aria-current="page" href="/Perizinan">Perizinan</a>
+            <a class="nav-link {{ ($navbar === "perizinan") ? 'active' : '' }}" aria-current="page" href="/perizinan">Perizinan</a>
           </li>
           <li class="nav-item ms-3">
-            <a class="nav-link {{ ($navbar === "beacon") ? 'active' : '' }}" aria-current="page" href="/Beacon">Beacon</a>
+            <a class="nav-link {{ ($navbar === "beacon") ? 'active' : '' }}" aria-current="page" href="/beacon">Beacon</a>
           </li>
 
           
