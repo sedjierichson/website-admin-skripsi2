@@ -2,45 +2,43 @@
 
 @section('container')
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h3>Data Kantor</h3>
-        <a class="btn" data-bs-toggle="modal" data-bs-target="#tambahDataModal" style="background-color: #ffa133">Tambah Kantor</a>
+        <h3>Data Beacon</h3>
+        <a class="btn" data-bs-toggle="modal" data-bs-target="#tambahDataModal" style="background-color: #ffa133">Tambah Beacon</a>
     </div>
-    <div class="row justify-content-center">
+    <div class="table-responsive col-xl justify-content-center mb-5">
+        <table class="table table-bordered text-center">
+            <thead style="background-color: #363636; color:#ffffff;">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Lokasi Kantor</th>
+                    <th scope="col">UUID</th>
+                    <th scope="col">Nama</th>
+                    <th scope="col">Lokasi Penempatan</th>
+                    <th scope="col">Aksi</th>
+                </tr>
+            </thead>
+            <tbody id="memberKategori">
+                @foreach ($datas as $data)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        @php
+                            $lastIterationNumber = $loop->iteration;
+                        @endphp
+                        <td>{{ $data['lokasi_kantor'] }}</td>
+                        <td>{{ $data['uuid'] }}</td>
+                        <td>{{ $data['nama'] }}</td>
+                        <td>{{ $data['lokasi'] }}</td>
+                        <td>
+                            {{-- <a href="#" data-name="{{ $data['nama'] }}" data-id="{{ $data['id'] }}"
+                                class="btn btn-warning edit">Edit</a> --}}
+                            <a href="#" data-id="{{ $data['id_beacon'] }}"
+                                class="btn btn-danger delete">Hapus</a>
+                        </td>
+                    </tr>
+                @endforeach
 
-        <div class="col-10">
-    
-            <div class="table-responsive justify-content-center mb-5">
-                <table class="table table-bordered text-center">
-                    <thead style="background-color: #363636; color:#ffffff;">
-                        <tr>
-                            <th class = "col" scope="col">#</th>
-                            <th class = "col-5" scope="col">Nama</th>
-                            <th class = "col-5" scope="col">Alamat</th>
-                            <th class = "col-2" scope="col">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody id="memberKategori">
-                        @foreach ($datas as $data)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                @php
-                                    $lastIterationNumber = $loop->iteration;
-                                @endphp
-                                <td style="width: 10%">{{ $data['nama'] }}</td>
-                                <td>{{ $data['alamat'] }}</td>
-                                <td>
-                                    <a href="#" data-name="{{ $data['nama'] }}" data-alamat="{{ $data['alamat'] }}" data-id="{{ $data['id'] }}"
-                                        class="btn btn-warning edit">Edit</a>
-                                    <a href="#" data-name="{{ $data['id'] }}" data-id="{{ $data['id'] }}"
-                                        class="btn btn-danger delete">Hapus</a>
-                                </td>
-                            </tr>
-                        @endforeach
-        
-                    </tbody>
-                </table>
-            </div>
-        </div>
+            </tbody>
+        </table>
     </div>
 @endsection
 
@@ -49,53 +47,35 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Tambah kategori baru</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Tambah beacon baru</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="insertDataKantor">
+                <form id="insertDataBeacon">
                     <div class="mb-3">
-                        <label for="nama_kantor">Nama Kantor</label>  
-                        <input type="text" name="nama_kantor" id="nama_kantor" class="form-control" placeholder="Masukkan nama kantor" required>
+                        <label for="lokasi_kantor">Lokasi Kantor</label>
+                        <select class="form-select" id="id_kantor">
+                            <option selected>Pilih Kantor</option>
+                            @foreach ($kantors as $kantor)
+                                <option value="{{ $kantor['id'] }}">{{ $kantor['nama'] }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="mb-3">
-                        <label for="alamat">Alamat kantor</label>  
-                        <input type="text" name="alamat" id="alamat" class="form-control" placeholder="Masukkan alamat" required>
+                        <label for="nama">Nama Beacon</label>  
+                        <input type="text" name="nama" id="nama" class="form-control" value="Presensi PT X" readonly required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="uuid">UUID Beacon</label>  
+                        <input type="text" name="uuid" id="uuid" class="form-control" value="{{ $uuid }}" readonly required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="lokasi">Lokasi Penempatan</label>  
+                        <input type="text" name="lokasi" id="lokasi" class="form-control" placeholder="Masukkan lokasi (contoh: lt. 2 depan ruang x)" required>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Tambah</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-{{-- edit modal --}}
-<div class="modal fade" id="editKantorModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Edit kategori</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="updateKantor">
-                    <input type="text" id="id_kantor" name="id_kantor" hidden required>
-                    <div class="mb-3">
-                        <label for="nama">Nama Kantor</label>
-                        <input type="text" id="nama" name="nama" class="form-control"
-                            placeholder="Masukkan nama kantor" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="alamat">Alamat Kantor</label>
-                        <input type="text" id="alamat" name="alamat" class="form-control"
-                            placeholder="Masukkan alamat kantor" required>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Update</button>
                     </div>
                 </form>
             </div>
@@ -107,23 +87,25 @@
 @section('included-js')
     <script type="text/javascript">
         //Add Data
-        $('#insertDataKantor').on('submit', function(e) {
+        $('#insertDataBeacon').on('submit', function(e) {
             e.preventDefault();
             var form = $(this).serialize();
-            let nama_kantor = $('#nama_kantor').val();
-            let alamat = $('#alamat').val();
-            console.log(nama_kantor);
-            console.log(alamat);
-            if (nama_kantor != "" && alamat != ""){
+            let id_kantor = $('#id_kantor').val();
+            let nama = $('#nama').val();
+            let uuid = $('#uuid').val();
+            let lokasi = $('#lokasi').val();
+            if (id_kantor != "" && nama != "" && uuid != "" && lokasi != ""){
                 $.ajax({
                     method: 'POST',
-                    url: "/kantor",
+                    url: "/beacon",
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     data: {
-                        nama: nama_kantor,
-                        alamat: alamat
+                        id_kantor: id_kantor,
+                        nama: nama,
+                        uuid: uuid,
+                        lokasi: lokasi
                     },
                     success: function(response) {
                         // console.log(response);
@@ -132,15 +114,15 @@
                         if (data.status == 1) {
                             Swal.fire({
                                 icon: 'success',
-                                title: 'Berhasil tambah data kantor',
-                                text: "Data kantor ditambahkan",
+                                title: 'Berhasil',
+                                text: "Beacon ditambahkan",
                             }).then(function() {
                                 location.href = "/kantor";        
                             });
                         } else {
                             Swal.fire({
                                 icon: 'error',
-                                title: 'Gagal tambah data absen',
+                                title: 'Gagal tambah beacon',
                                 text: data.message,
                             });
                         }
@@ -151,7 +133,7 @@
                         console.log(error);
                         Swal.fire({
                             icon: 'error',
-                            title: 'Gagal tambah kategori',
+                            title: 'Gagal tambah beacon',
                             text: data.message,
                         });
 
@@ -219,7 +201,7 @@
                 if (result.isConfirmed) {
                     $.ajax({
                         method: 'DELETE',
-                        url: "/kantor/" + id,
+                        url: "/beacon/" + id,
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
@@ -233,7 +215,7 @@
                                     'Data berhasil dihapus',
                                     'success'
                                 ).then(function() {
-                                    location.href = "/kantor";        
+                                    location.href = "/beacon";        
                                 });
                             } else {
                                 alert("Error: " + response.message);

@@ -4,14 +4,23 @@
 $lastIterationNumber = 0;
 @endphp
 
+@section('included-css')
+    <style>
+        #head{
+            background-color: #363636;
+            color: #ffffff;
+        }
+    </style>
+@endsection
+
 @section('container')
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h3>Data Presensi Karyawan</h3>
+        <a class="btn" data-bs-toggle="modal" data-bs-target="#tambahDataModal" style="background-color: #ffa133" >Tambah data presensi</a>
     </div>
-    <a class="btn btn-primary mb-3 " data-bs-toggle="modal" data-bs-target="#tambahDataModal">Tambah data baru</a>
     <div class="table-responsive col-xl justify-content-center mb-5">
-        <table class="table table-striped w-auto text-center">
-            <thead>
+        <table class="table table-bordered text-center">
+            <thead id="head">
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Tanggal</th>
@@ -21,7 +30,7 @@ $lastIterationNumber = 0;
                     <th scope="col">Jam Masuk</th>
                     <th scope="col">Jam Keluar</th>
                     <th scope="col">Foto</th>
-                    <th scope="col">Action</th>
+                    <th scope="col">Aksi</th>
                 </tr>
             </thead>
             <tbody id="memberKategori">
@@ -31,13 +40,13 @@ $lastIterationNumber = 0;
                         @php
                             $lastIterationNumber = $loop->iteration;
                         @endphp
-                        <td style="width: 10%">{{ $data['tanggal'] }}</td>
+                        <td>{{ $data['tanggal'] }}</td>
                         <td>{{ $data['nik'] }}</td>
                         <td>{{ $data['nama'] }}</td>
-                        <td style="width: 10%">{{ $data['lokasi'] }}</td>
+                        <td>{{ $data['lokasi'] }}</td>
                         <td>{{ $data['jam_masuk'] }}</td>
                         <td>{{ $data['jam_keluar'] }}</td>
-                        <td>{{ $data['foto'] }}</td>
+                        <td><img src="{{ $data['foto'] }}" width="120"></td>
                         <td>
                             <a href="#" data-name="{{ $data['nik'] }}" data-id="{{ $data['id'] }}"
                                 class="btn btn-warning edit">Edit</a>

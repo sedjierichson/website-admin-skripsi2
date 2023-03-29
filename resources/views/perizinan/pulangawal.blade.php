@@ -2,45 +2,49 @@
 
 @section('container')
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h3>Data Kantor</h3>
-        <a class="btn" data-bs-toggle="modal" data-bs-target="#tambahDataModal" style="background-color: #ffa133">Tambah Kantor</a>
+        <h3>Data Izin Pulang Lebih Awal</h3>
+        <a class="btn" data-bs-toggle="modal" data-bs-target="#tambahDataModal" style="background-color: #ffa133">Tambah Data</a>
     </div>
-    <div class="row justify-content-center">
+    <div class="table-responsive col-xl justify-content-center mb-5">
+        <table class="table table-bordered text-center">
+            <thead style="background-color: #363636; color:#ffffff;">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">NIK - Nama Karyawan</th>
+                    <th scope="col">NIK - Nama Atasan</th>
+                    <th scope="col">Tanggal Izin</th>
+                    <th scope="col">Jam Pulang</th>
+                    <th scope="col">Alasan</th>
+                    <th scope="col">Tanggal Pengajuan</th>
+                    <th scope="col">Tanggal Respon</th>
+                    <th scope="col">Aksi</th>
+                </tr>
+            </thead>
+            <tbody id="memberKategori">
+                @foreach ($datas as $data)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        @php
+                            $lastIterationNumber = $loop->iteration;
+                        @endphp
+                        <td>{{ $data['nik_pegawai'] }} - {{ $data['nama'] }}</td>
+                        <td>{{ $data['nik_atasan'] }}</td>
+                        <td>{{ $data['tanggal_awal'] }}</td>
+                        <td>{{ $data['jam_awal'] }}</td>
+                        <td>{{ $data['alasan'] }}</td>
+                        <td>{{ $data['tanggal_pengajuan'] }}</td>
+                        <td>{{ $data['tanggal_respon'] }}</td>
+                        <td>
+                            {{-- <a href="#" data-name="{{ $data['nama'] }}" data-id="{{ $data['id'] }}"
+                                class="btn btn-warning edit">Edit</a> --}}
+                            <a href="#" data-id="{{ $data['id'] }}"
+                                class="btn btn-danger delete">Hapus</a>
+                        </td>
+                    </tr>
+                @endforeach
 
-        <div class="col-10">
-    
-            <div class="table-responsive justify-content-center mb-5">
-                <table class="table table-bordered text-center">
-                    <thead style="background-color: #363636; color:#ffffff;">
-                        <tr>
-                            <th class = "col" scope="col">#</th>
-                            <th class = "col-5" scope="col">Nama</th>
-                            <th class = "col-5" scope="col">Alamat</th>
-                            <th class = "col-2" scope="col">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody id="memberKategori">
-                        @foreach ($datas as $data)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                @php
-                                    $lastIterationNumber = $loop->iteration;
-                                @endphp
-                                <td style="width: 10%">{{ $data['nama'] }}</td>
-                                <td>{{ $data['alamat'] }}</td>
-                                <td>
-                                    <a href="#" data-name="{{ $data['nama'] }}" data-alamat="{{ $data['alamat'] }}" data-id="{{ $data['id'] }}"
-                                        class="btn btn-warning edit">Edit</a>
-                                    <a href="#" data-name="{{ $data['id'] }}" data-id="{{ $data['id'] }}"
-                                        class="btn btn-danger delete">Hapus</a>
-                                </td>
-                            </tr>
-                        @endforeach
-        
-                    </tbody>
-                </table>
-            </div>
-        </div>
+            </tbody>
+        </table>
     </div>
 @endsection
 
@@ -49,54 +53,41 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Tambah kategori baru</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Tambah data izin</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="insertDataKantor">
+                <form id="insertDataIzin">
                     <div class="mb-3">
-                        <label for="nama_kantor">Nama Kantor</label>  
-                        <input type="text" name="nama_kantor" id="nama_kantor" class="form-control" placeholder="Masukkan nama kantor" required>
+                        <label for="nik_karyawan">NIK Karyawan</label>
+                        <select class="form-select" id="nik">
+                            <option selected>Pilih Karyawan</option>
+                            @foreach ($pegawais as $pegawai)
+                                <option value="{{ $pegawai['nik'] }}">{{ $pegawai['nik'] }} - {{ $pegawai['nama'] }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="mb-3">
-                        <label for="alamat">Alamat kantor</label>  
-                        <input type="text" name="alamat" id="alamat" class="form-control" placeholder="Masukkan alamat" required>
+                        <label for="nama">Tipe Izin</label>  
+                        <input type="text" name="nama" id="nama" class="form-control" value="Pulang lebih awal" readonly required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tanggal_izin">Tanggal Izin</label>  
+                        <input type="date" name="tanggal_izin" id="tanggal_izin" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="jam_izin_pulang">Jam Izin Pulang</label>  
+                        <input type="time" name="jam_izin_pulang" id="jam_izin_pulang" class="form-control" placeholder="Masukkan jam pulang" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="alasan">alasan</label>  
+                        <input type="text" name="alasan" id="alasan" class="form-control" placeholder="Masukkan alasan" required>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Tambah</button>
                     </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-{{-- edit modal --}}
-<div class="modal fade" id="editKantorModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Edit kategori</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="updateKantor">
-                    <input type="text" id="id_kantor" name="id_kantor" hidden required>
-                    <div class="mb-3">
-                        <label for="nama">Nama Kantor</label>
-                        <input type="text" id="nama" name="nama" class="form-control"
-                            placeholder="Masukkan nama kantor" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="alamat">Alamat Kantor</label>
-                        <input type="text" id="alamat" name="alamat" class="form-control"
-                            placeholder="Masukkan alamat kantor" required>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Update</button>
-                    </div>
+                    <input type="text" id="tanggal_pengajuan" value="{{ now()->format('Y-m-d') }}" readonly>
                 </form>
             </div>
         </div>
@@ -107,40 +98,44 @@
 @section('included-js')
     <script type="text/javascript">
         //Add Data
-        $('#insertDataKantor').on('submit', function(e) {
+        $('#insertDataIzin').on('submit', function(e) {
             e.preventDefault();
             var form = $(this).serialize();
-            let nama_kantor = $('#nama_kantor').val();
-            let alamat = $('#alamat').val();
-            console.log(nama_kantor);
-            console.log(alamat);
-            if (nama_kantor != "" && alamat != ""){
+            let tanggal_izin = $('#tanggal_izin').val();
+            let nik = $('#nik').val();
+            let jam_izin_pulang = $('#jam_izin_pulang').val();
+            let alasan = $('#alasan').val();
+            var tanggal_pengajuan = $('#tanggal_pengajuan').val();
+            if (tanggal_izin != "" && nik != "" && jam_izin_pulang != "" && alasan != ""){
                 $.ajax({
                     method: 'POST',
-                    url: "/kantor",
+                    url: "/perizinan/pulangawal",
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     data: {
-                        nama: nama_kantor,
-                        alamat: alamat
+                        nik: nik,
+                        tanggal_izin: tanggal_izin,
+                        jam_izin_pulang: jam_izin_pulang,
+                        alasan: alasan, 
+                        tanggal_pengajuan : tanggal_pengajuan
                     },
                     success: function(response) {
-                        // console.log(response);
+                        console.log(response);
                         data = JSON.parse(response);
                         console.log(data);
                         if (data.status == 1) {
                             Swal.fire({
                                 icon: 'success',
-                                title: 'Berhasil tambah data kantor',
-                                text: "Data kantor ditambahkan",
+                                title: 'Berhasil',
+                                text: "Beacon ditambahkan",
                             }).then(function() {
-                                location.href = "/kantor";        
+                                location.href = "/perizinan/pulangawal";        
                             });
                         } else {
                             Swal.fire({
                                 icon: 'error',
-                                title: 'Gagal tambah data absen',
+                                title: 'Gagal tambah beacon',
                                 text: data.message,
                             });
                         }
@@ -151,7 +146,7 @@
                         console.log(error);
                         Swal.fire({
                             icon: 'error',
-                            title: 'Gagal tambah kategori',
+                            title: 'Gagal tambah beacon',
                             text: data.message,
                         });
 
@@ -219,7 +214,7 @@
                 if (result.isConfirmed) {
                     $.ajax({
                         method: 'DELETE',
-                        url: "/kantor/" + id,
+                        url: "/beacon/" + id,
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
@@ -233,7 +228,7 @@
                                     'Data berhasil dihapus',
                                     'success'
                                 ).then(function() {
-                                    location.href = "/kantor";        
+                                    location.href = "/beacon";        
                                 });
                             } else {
                                 alert("Error: " + response.message);
