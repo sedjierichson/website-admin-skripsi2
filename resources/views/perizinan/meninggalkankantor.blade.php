@@ -50,41 +50,50 @@
     </div>
 @endsection
 
-{{-- @section('other')
+@section('other')
 <div class="modal fade" id="tambahDataModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Tambah beacon baru</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Tambah data izin</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="insertDataBeacon">
+                <form id="insertDataIzin">
                     <div class="mb-3">
-                        <label for="lokasi_kantor">Lokasi Kantor</label>
-                        <select class="form-select" id="id_kantor">
-                            <option selected>Pilih Kantor</option>
-                            @foreach ($kantors as $kantor)
-                                <option value="{{ $kantor['id'] }}">{{ $kantor['nama'] }}</option>
+                        <label for="nik_karyawan">NIK Karyawan</label>
+                        <select class="form-select" id="nik">
+                            <option selected>Pilih Karyawan</option>
+                            @foreach ($pegawais as $pegawai)
+                                <option value="{{ $pegawai['nik'] }}">{{ $pegawai['nik'] }} - {{ $pegawai['nama'] }}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="nama">Nama Beacon</label>  
-                        <input type="text" name="nama" id="nama" class="form-control" value="Presensi PT X" readonly required>
+                        <label for="nama">Tipe Izin</label>  
+                        <input type="text" name="nama" id="nama" class="form-control" value="Meninggalkan Lokasi Kerja" readonly required>
                     </div>
                     <div class="mb-3">
-                        <label for="uuid">UUID Beacon</label>  
-                        <input type="text" name="uuid" id="uuid" class="form-control" value="{{ $uuid }}" readonly required>
+                        <label for="tanggal_izin">Tanggal Izin</label>  
+                        <input type="date" name="tanggal_izin" id="tanggal_izin" class="form-control" required>
                     </div>
                     <div class="mb-3">
-                        <label for="lokasi">Lokasi Penempatan</label>  
-                        <input type="text" name="lokasi" id="lokasi" class="form-control" placeholder="Masukkan lokasi (contoh: lt. 2 depan ruang x)" required>
+                        <label for="jam_awal">Jam Pergi</label>  
+                        <input type="time" name="jam_awal" id="jam_awal" class="form-control" placeholder="Masukkan jam pulang" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="jam_akhir">Jam Pulang</label>  
+                        <input type="time" name="jam_akhir" id="jam_akhir" class="form-control" placeholder="Masukkan jam pulang" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="alasan">alasan</label>  
+                        <input type="text" name="alasan" id="alasan" class="form-control" placeholder="Masukkan alasan" required>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Tambah</button>
                     </div>
+                    <input type="text" id="tanggal_pengajuan" value="{{ now()->format('Y-m-d') }}" readonly hidden>
                 </form>
             </div>
         </div>
@@ -95,42 +104,46 @@
 @section('included-js')
     <script type="text/javascript">
         //Add Data
-        $('#insertDataBeacon').on('submit', function(e) {
+        $('#insertDataIzin').on('submit', function(e) {
             e.preventDefault();
             var form = $(this).serialize();
-            let id_kantor = $('#id_kantor').val();
-            let nama = $('#nama').val();
-            let uuid = $('#uuid').val();
-            let lokasi = $('#lokasi').val();
-            if (id_kantor != "" && nama != "" && uuid != "" && lokasi != ""){
+            let tanggal_izin = $('#tanggal_izin').val();
+            let nik = $('#nik').val();
+            let jam_awal = $('#jam_awal').val();
+            let jam_akhir = $('#jam_akhir').val();
+            let alasan = $('#alasan').val();
+            var tanggal_pengajuan = $('#tanggal_pengajuan').val();
+            if (tanggal_izin != "" && nik != "" && jam_awal != "" && jam_akhir != "" && alasan != ""){
                 $.ajax({
                     method: 'POST',
-                    url: "/beacon",
+                    url: "/perizinan/meninggalkanlokasikerja",
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     data: {
-                        id_kantor: id_kantor,
-                        nama: nama,
-                        uuid: uuid,
-                        lokasi: lokasi
+                        nik: nik,
+                        tanggal_izin: tanggal_izin,
+                        jam_awal: jam_awal,
+                        jam_akhir: jam_akhir,
+                        alasan: alasan, 
+                        tanggal_pengajuan : tanggal_pengajuan
                     },
                     success: function(response) {
-                        // console.log(response);
+                        console.log(response);
                         data = JSON.parse(response);
                         console.log(data);
                         if (data.status == 1) {
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Berhasil',
-                                text: "Beacon ditambahkan",
+                                text: "Data ditambahkan",
                             }).then(function() {
-                                location.href = "/kantor";        
+                                location.href = "/perizinan/meninggalkanlokasikerja";        
                             });
                         } else {
                             Swal.fire({
                                 icon: 'error',
-                                title: 'Gagal tambah beacon',
+                                title: 'Gagal tambah data',
                                 text: data.message,
                             });
                         }
@@ -150,48 +163,7 @@
             }
         });
 
-        //Edit Data
-        var editEvent;
-        $(document).on('click', '.edit', function(event) {
-            event.preventDefault();
-            editEvent = event;
-            $('#editKantorModal').modal('show');
-            $('#updateKantor #nama').val($(this).data('name'));
-            $('#updateKantor #alamat').val($(this).data('alamat'));
-            $('#updateKantor #id_kantor').val($(this).data('id'));
-        });
-        $('#updateKantor').on('submit', function(e) {
-                e.preventDefault();
-                var form = $(this).serialize();
-
-                $.ajax({
-                    method: 'PUT',
-                    url: "/kantor/"+ $(this).data('id'),
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    data: form,
-                    dataType: 'json',
-                    success: function(response) {
-                        console.log(response);
-                        if (response.status == 1) {
-                            Swal.fire(
-                                'Updated!',
-                                'Kantor berhasil diubah',
-                                'success'
-                            ).then(function() {
-                                location.href = "/kantor";        
-                            });
-                            
-                        } else {
-                            alert("Error: " + response.message);
-                        }
-                    },
-                    error: function(request, status, error) {
-                        alert("Not Ok");
-                    }
-                });
-            });
+       
         //Delete Data
         $(document).on('click', '.delete', function(event) {
             event.preventDefault();
@@ -209,7 +181,7 @@
                 if (result.isConfirmed) {
                     $.ajax({
                         method: 'DELETE',
-                        url: "/beacon/" + id,
+                        url: "/perizinan/meninggalkanlokasikerja/" + id,
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
@@ -223,7 +195,7 @@
                                     'Data berhasil dihapus',
                                     'success'
                                 ).then(function() {
-                                    location.href = "/beacon";        
+                                    location.href = "/perizinan/meninggalkanlokasikerja";        
                                 });
                             } else {
                                 alert("Error: " + response.message);
@@ -237,4 +209,4 @@
             });
         });
     </script>
-@endsection --}}
+@endsection

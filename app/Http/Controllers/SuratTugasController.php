@@ -14,6 +14,8 @@ class SuratTugasController extends Controller
     {
         $response = Http::get("http://127.0.0.1:8888/api-presensi/api-presensi/api/detail_izin.php?id_izin=3");
         $response2 = Http::get("http://127.0.0.1:8888/api-presensi/api-presensi/api/pegawai.php");
+        $response3 = Http::get("http://127.0.0.1:8888/api-presensi/api-presensi/api/kantor.php")->collect();
+
         $param = [
             'title' => 'Data Izin Pulang Lebih Awal',
             'navbar' => 'perizinan',
@@ -24,6 +26,7 @@ class SuratTugasController extends Controller
             $param += [
                 'datas' => $collection['data'],
                 'pegawais' => $collection2['data'],
+                'kantors' => $response3['data'],
             ];
             return \view('perizinan.surattugas', $param);
         }
@@ -42,7 +45,22 @@ class SuratTugasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $response = Http::get("http://127.0.0.1:8888/contoh-api-rutan/contoh-api-rutan/api/pegawai.php?nik=".$request['nik']);
+        $collection = $response->collect();
+        $response2 = Http::asForm()->post('http://127.0.0.1:8888/api-presensi/api-presensi/api/detail_izin.php', [
+            'nik_pegawai' => $request['nik'],
+            'nik_atasan' => $collection['data']['nik_atasan'],
+            'tanggal_awal' => $request['tanggal_awal'],
+            'tanggal_akhir' => $request['tanggal_akhir'],
+            'uraian_tugas' => $request['uraian_tugas'],
+            'tempat_tujuan' => $request['tempat_tujuan'],
+            'tanggal_pengajuan' => $request['tanggal_pengajuan'],
+        ]);
+        if ($response2->successful()) {
+            return $response2;
+        } else {
+            return json_encode(['status' => 0, 'message' => $this->serverErrorMsg]);
+        }
     }
 
     /**
@@ -74,6 +92,11 @@ class SuratTugasController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $response = Http::delete("http://127.0.0.1:8888/api-presensi/api-presensi/api/detail_izin.php", ['id' => $id]);
+        if ($response->successful()) {
+            return $response;
+        } else {
+            return json_encode(['status' => 0, 'message' => $this->serverErrorMsg]);
+        }
     }
 }

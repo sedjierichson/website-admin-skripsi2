@@ -9,6 +9,8 @@ use App\Http\Controllers\BeaconController;
 use App\Http\Controllers\PulangAwalController;
 use App\Http\Controllers\MeninggalkanKantorController;
 use App\Http\Controllers\SuratTugasController;
+use App\Http\Controllers\TidakPresensiController;
+use App\Http\Controllers\CodeLoginController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -38,6 +40,8 @@ Route::resource('beacon', BeaconController::class);
 Route::resource('perizinan/pulangawal', PulangAwalController::class);
 Route::resource('perizinan/meninggalkanlokasikerja', MeninggalkanKantorController::class);
 Route::resource('perizinan/surattugas', SuratTugasController::class);
+Route::resource('perizinan/tidakpresensi', TidakPresensiController::class);
+Route::resource('codelogin', CodeLoginController::class);
 
 Route::get('/perizinan', function(){
     return view('perizinan.tipeizin', [

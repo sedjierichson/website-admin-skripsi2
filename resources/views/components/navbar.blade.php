@@ -29,6 +29,9 @@
           <li class="nav-item ms-3">
             <a class="nav-link {{ ($navbar === "beacon") ? 'active' : '' }}" aria-current="page" href="/beacon">Beacon</a>
           </li>
+          <li class="nav-item ms-3">
+            <a class="nav-link {{ ($navbar === "pegawai") ? 'active' : '' }}" aria-current="page" href="codelogin">Pegawai</a>
+          </li>
 
           
 

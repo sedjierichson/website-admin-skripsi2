@@ -2,8 +2,26 @@
 
 @section('container')
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h3>Data Beacon</h3>
-        <a class="btn" data-bs-toggle="modal" data-bs-target="#tambahDataModal" style="background-color: #ffa133">Tambah Beacon</a>
+        <div class="container">
+            
+            <div class="row justify-content-between">
+                <div class="col-9">
+                    <h3>Data Beacon</h3>
+                </div>
+                <div class="col-3">
+                    <div class="container">
+                        <div class="row justify-content-end">
+                            <div class="col-9">                               
+                                <a class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#caraTambahBeacon" style="background-color: #ffa133">Lihat Cara Tambah Beacon</a>
+                            </div>
+                            <div class="col-3">            
+                                <a class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#tambahDataModal" style="background-color: #ffa133">Tambah Beacon</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="table-responsive col-xl justify-content-center mb-5">
         <table class="table table-bordered text-center">
@@ -78,6 +96,32 @@
                         <button type="submit" class="btn btn-primary">Tambah</button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="caraTambahBeacon" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cara tambah beacon baru</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {{-- <form id="insertDataBeacon"> --}}
+                    <p>1. Isi form tambah beacon</p>
+                    <p>2. Tekan tombol "Compile Arduino" dan akan diarahkan ke halaman berisi code</p>
+                    <p>3. Salin semua code</p>
+                    <p>4. Buka aplikasi arduino yang bisa diunduh di : <a href="https://www.arduino.cc/en/software">https://www.arduino.cc/en/software</a> </p>
+                    <p>5. Tempel semua code ke aplikasi arduino</p>
+                    <p>6. Hubungkan perangkat ESP32 ke komputer dengan usb</p>
+                    <p>7. Jika sudah selesai, konfigurasi ESP32 berhasil dan siap digunakan</p>
+                   
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                {{-- </form> --}}
             </div>
         </div>
     </div>

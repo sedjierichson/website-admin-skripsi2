@@ -35,7 +35,7 @@
                 </a>
             </div>
             <div class="col-md-4">
-                <a href="" class="text-decoration-none">
+                <a href="beacon" class="text-decoration-none">
                     <div class="card bg-warning text-light h-100">
                         <div class="card-body text-center">
                             <img src="{{ url('/img/bluetooth.png') }}" class="mx-auto d-block" width="100" alt="">
@@ -45,7 +45,7 @@
                 </a>
             </div>
             <div class="col-md-4">
-                <a href="" class="text-decoration-none">
+                <a href="perizinan" class="text-decoration-none">
                     <div class="card bg-info text-light h-100">
                         <div class="card-body text-center">
                             <img src="{{ url('/img/form.png') }}" class="mx-auto d-block" width="100" alt="">
@@ -55,7 +55,7 @@
                 </a>
             </div>
             <div class="col-md-4">
-                <a href="" class="text-decoration-none">
+                <a href="kantor" class="text-decoration-none">
                     <div class="card bg-dark text-light h-100">
                         <div class="card-body text-center">
                             <img src="{{ url('/img/office-building.png') }}" class="mx-auto d-block" width="100" alt="">
@@ -65,7 +65,7 @@
                 </a>
             </div>
             <div class="col-md-4">
-                <a href="" class="text-decoration-none">
+                <a href="codelogin" class="text-decoration-none">
                     <div class="card bg-danger text-light h-100">
                         <div class="card-body text-center">
                             <img src="{{ url('/img/lock.png') }}" class="mx-auto d-block" width="100" alt="">

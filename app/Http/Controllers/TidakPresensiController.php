@@ -5,17 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
-class PulangAwalController extends Controller
+class TidakPresensiController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $response = Http::get("http://127.0.0.1:8888/api-presensi/api-presensi/api/detail_izin.php?id_izin=1");
+        $response = Http::get("http://127.0.0.1:8888/api-presensi/api-presensi/api/detail_izin.php?id_izin=4");
         $response2 = Http::get("http://127.0.0.1:8888/api-presensi/api-presensi/api/pegawai.php");
         $param = [
-            'title' => 'Data Izin Pulang Lebih Awal',
+            'title' => 'Data Izin Tidak Melakukan Presensi',
             'navbar' => 'perizinan',
         ];
         if ($response->successful()) {
@@ -25,7 +25,7 @@ class PulangAwalController extends Controller
                 'datas' => $collection['data'],
                 'pegawais' => $collection2['data'],
             ];
-            return \view('perizinan.pulangawal', $param);
+            return \view('perizinan.tidakpresensi', $param);
         }
     }
 
@@ -42,14 +42,14 @@ class PulangAwalController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request['nik'];
         $response = Http::get("http://127.0.0.1:8888/contoh-api-rutan/contoh-api-rutan/api/pegawai.php?nik=".$request['nik']);
         $collection = $response->collect();
         $response2 = Http::asForm()->post('http://127.0.0.1:8888/api-presensi/api-presensi/api/detail_izin.php', [
             'nik_pegawai' => $request['nik'],
             'nik_atasan' => $collection['data']['nik_atasan'],
-            'tanggal_izin' => $request['tanggal_izin'],
-            'jam_izin_pulang' => $request['jam_izin_pulang'],
+            'tanggal_lupa_absen' => $request['tanggal_awal'],
+            'jam_awal' => $request['jam_awal'],
+            'jam_akhir' => $request['jam_akhir'],
             'alasan' => $request['alasan'],
             'tanggal_pengajuan' => $request['tanggal_pengajuan'],
         ]);
@@ -58,7 +58,6 @@ class PulangAwalController extends Controller
         } else {
             return json_encode(['status' => 0, 'message' => $this->serverErrorMsg]);
         }
-        
     }
 
     /**

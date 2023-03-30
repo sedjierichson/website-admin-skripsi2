@@ -2,7 +2,7 @@
 
 @section('container')
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h4 style="font-weight: bold;">Data Izin Pulang Lebih Awal</h4>
+        <h3>Data Izin Tidak Melakukan Presensi</h3>
         <a class="btn" data-bs-toggle="modal" data-bs-target="#tambahDataModal" style="background-color: #ffa133">Tambah Data</a>
     </div>
     <div class="table-responsive col-xl justify-content-center mb-5">
@@ -12,7 +12,8 @@
                     <th scope="col">#</th>
                     <th scope="col">NIK - Nama Karyawan</th>
                     <th scope="col">NIK - Nama Atasan</th>
-                    <th scope="col">Tanggal Izin</th>
+                    <th scope="col">Tanggal Presensi</th>
+                    <th scope="col">Jam Masuk</th>
                     <th scope="col">Jam Pulang</th>
                     <th scope="col">Alasan</th>
                     <th scope="col">Tanggal Pengajuan</th>
@@ -31,6 +32,7 @@
                         <td>{{ $data['nik_atasan'] }}</td>
                         <td>{{ $data['tanggal_awal'] }}</td>
                         <td>{{ $data['jam_awal'] }}</td>
+                        <td>{{ $data['jam_akhir'] }}</td>
                         <td>{{ $data['alasan'] }}</td>
                         <td>{{ $data['tanggal_pengajuan'] }}</td>
                         <td>{{ $data['tanggal_respon'] }}</td>
@@ -69,25 +71,29 @@
                     </div>
                     <div class="mb-3">
                         <label for="nama">Tipe Izin</label>  
-                        <input type="text" name="nama" id="nama" class="form-control" value="Pulang lebih awal" readonly required>
+                        <input type="text" name="nama" id="nama" class="form-control" value="Surat Tugas" readonly required>
                     </div>
                     <div class="mb-3">
-                        <label for="tanggal_izin">Tanggal Izin</label>  
-                        <input type="date" name="tanggal_izin" id="tanggal_izin" class="form-control" required>
+                        <label for="tanggal_awal">Tanggal Presensi</label>  
+                        <input type="date" name="tanggal_awal" id="tanggal_awal" class="form-control" required>
                     </div>
                     <div class="mb-3">
-                        <label for="jam_izin_pulang">Jam Izin Pulang</label>  
-                        <input type="time" name="jam_izin_pulang" id="jam_izin_pulang" class="form-control" placeholder="Masukkan jam pulang" required>
+                        <label for="jam_awal">Jam Masuk</label>  
+                        <input type="time" name="jam_awal" id="jam_awal" class="form-control" required>
                     </div>
                     <div class="mb-3">
-                        <label for="alasan">alasan</label>  
-                        <input type="text" name="alasan" id="alasan" class="form-control" placeholder="Masukkan alasan" required>
+                        <label for="jam_akhir">Jam Akhir</label>  
+                        <input type="time" name="jam_akhir" id="jam_akhir" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="alasan">Alasan</label>  
+                        <input type="text" name="alasan" id="alasan" class="form-control" required>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Tambah</button>
                     </div>
-                    <input type="text" id="tanggal_pengajuan" value="{{ now()->format('Y-m-d') }}" readonly>
+                    <input type="text" id="tanggal_pengajuan" value="{{ now()->format('Y-m-d') }}" hidden readonly>
                 </form>
             </div>
         </div>
@@ -101,22 +107,24 @@
         $('#insertDataIzin').on('submit', function(e) {
             e.preventDefault();
             var form = $(this).serialize();
-            let tanggal_izin = $('#tanggal_izin').val();
             let nik = $('#nik').val();
-            let jam_izin_pulang = $('#jam_izin_pulang').val();
+            let tanggal_awal = $('#tanggal_awal').val();
+            let jam_awal = $('#jam_awal').val();
+            let jam_akhir = $('#jam_akhir').val();
             let alasan = $('#alasan').val();
             var tanggal_pengajuan = $('#tanggal_pengajuan').val();
-            if (tanggal_izin != "" && nik != "" && jam_izin_pulang != "" && alasan != ""){
+            if (tanggal_awal != "" && nik != "" && jam_awal != "" && jam_akhir != "" && alasan != ""){
                 $.ajax({
                     method: 'POST',
-                    url: "/perizinan/pulangawal",
+                    url: "/perizinan/tidakpresensi",
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     data: {
                         nik: nik,
-                        tanggal_izin: tanggal_izin,
-                        jam_izin_pulang: jam_izin_pulang,
+                        tanggal_awal: tanggal_awal,
+                        jam_awal: jam_awal,
+                        jam_akhir: jam_akhir,
                         alasan: alasan, 
                         tanggal_pengajuan : tanggal_pengajuan
                     },
@@ -130,7 +138,7 @@
                                 title: 'Berhasil',
                                 text: "Data ditambahkan",
                             }).then(function() {
-                                location.href = "/perizinan/pulangawal";        
+                                location.href = "/perizinan/tidakpresensi";        
                             });
                         } else {
                             Swal.fire({
@@ -146,7 +154,7 @@
                         console.log(error);
                         Swal.fire({
                             icon: 'error',
-                            title: 'Gagal tambah beacon',
+                            title: 'Gagal tambah data',
                             text: data.message,
                         });
 
@@ -155,7 +163,6 @@
             }
         });
 
-       
         //Delete Data
         $(document).on('click', '.delete', function(event) {
             event.preventDefault();
@@ -173,7 +180,7 @@
                 if (result.isConfirmed) {
                     $.ajax({
                         method: 'DELETE',
-                        url: "/perizinan/pulangawal/" + id,
+                        url: "/perizinan/tidakpresensi/" + id,
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
@@ -187,7 +194,7 @@
                                     'Data berhasil dihapus',
                                     'success'
                                 ).then(function() {
-                                    location.href = "/perizinan/pulangawal";        
+                                    location.href = "/perizinan/tidakpresensi";        
                                 });
                             } else {
                                 alert("Error: " + response.message);

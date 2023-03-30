@@ -71,25 +71,34 @@
                     </div>
                     <div class="mb-3">
                         <label for="nama">Tipe Izin</label>  
-                        <input type="text" name="nama" id="nama" class="form-control" value="Pulang lebih awal" readonly required>
+                        <input type="text" name="nama" id="nama" class="form-control" value="Surat Tugas" readonly required>
                     </div>
                     <div class="mb-3">
-                        <label for="tanggal_izin">Tanggal Izin</label>  
-                        <input type="date" name="tanggal_izin" id="tanggal_izin" class="form-control" required>
+                        <label for="tanggal_awal">Tanggal Awal</label>  
+                        <input type="date" name="tanggal_awal" id="tanggal_awal" class="form-control" required>
                     </div>
                     <div class="mb-3">
-                        <label for="jam_izin_pulang">Jam Izin Pulang</label>  
-                        <input type="time" name="jam_izin_pulang" id="jam_izin_pulang" class="form-control" placeholder="Masukkan jam pulang" required>
+                        <label for="tanggal_akhir">Tanggal Akhir</label>  
+                        <input type="date" name="tanggal_akhir" id="tanggal_akhir" class="form-control" required>
                     </div>
                     <div class="mb-3">
-                        <label for="Alasan">Alasan</label>  
-                        <input type="text" name="Alasan" id="Alasan" class="form-control" placeholder="Masukkan alasan" required>
+                        <label for="nik_karyawan">Tempat Tujuan</label>
+                        <select class="form-select" id="tempat_tujuan">
+                            <option selected>Pilih tempat tujuan</option>
+                            @foreach ($kantors as $kantor)
+                                <option value="{{ $kantor['id'] }}">{{ $kantor['nama'] }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="uraian_tugas">Uraian Tugas</label>  
+                        <input type="text" name="uraian_tugas" id="uraian_tugas" class="form-control" required>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Tambah</button>
                     </div>
-                    <input type="text" id="tanggal_pengajuan" value="{{ now()->format('Y-m-d') }}" readonly>
+                    <input type="text" id="tanggal_pengajuan" value="{{ now()->format('Y-m-d') }}" hidden readonly>
                 </form>
             </div>
         </div>
@@ -103,23 +112,25 @@
         $('#insertDataIzin').on('submit', function(e) {
             e.preventDefault();
             var form = $(this).serialize();
-            let tanggal_izin = $('#tanggal_izin').val();
             let nik = $('#nik').val();
-            let jam_izin_pulang = $('#jam_izin_pulang').val();
-            let alasan = $('#alasan').val();
+            let tanggal_awal = $('#tanggal_awal').val();
+            let tanggal_akhir = $('#tanggal_akhir').val();
+            let tempat_tujuan = $('#tempat_tujuan').val();
+            let uraian_tugas = $('#uraian_tugas').val();
             var tanggal_pengajuan = $('#tanggal_pengajuan').val();
-            if (tanggal_izin != "" && nik != "" && jam_izin_pulang != "" && alasan != ""){
+            if (tanggal_awal != "" && nik != "" && tanggal_awal != "" && uraian_tugas != "" && tempat_tujuan != ""){
                 $.ajax({
                     method: 'POST',
-                    url: "/perizinan/pulangawal",
+                    url: "/perizinan/surattugas",
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     data: {
                         nik: nik,
-                        tanggal_izin: tanggal_izin,
-                        jam_izin_pulang: jam_izin_pulang,
-                        alasan: alasan, 
+                        tanggal_awal: tanggal_awal,
+                        tanggal_akhir: tanggal_akhir,
+                        tempat_tujuan: tempat_tujuan,
+                        uraian_tugas: uraian_tugas, 
                         tanggal_pengajuan : tanggal_pengajuan
                     },
                     success: function(response) {
@@ -130,14 +141,14 @@
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Berhasil',
-                                text: "Beacon ditambahkan",
+                                text: "Data ditambahkan",
                             }).then(function() {
-                                location.href = "/perizinan/pulangawal";        
+                                location.href = "/perizinan/surattugas";        
                             });
                         } else {
                             Swal.fire({
                                 icon: 'error',
-                                title: 'Gagal tambah beacon',
+                                title: 'Gagal tambah data',
                                 text: data.message,
                             });
                         }
@@ -148,7 +159,7 @@
                         console.log(error);
                         Swal.fire({
                             icon: 'error',
-                            title: 'Gagal tambah beacon',
+                            title: 'Gagal tambah data',
                             text: data.message,
                         });
 
@@ -157,48 +168,6 @@
             }
         });
 
-        //Edit Data
-        var editEvent;
-        $(document).on('click', '.edit', function(event) {
-            event.preventDefault();
-            editEvent = event;
-            $('#editKantorModal').modal('show');
-            $('#updateKantor #nama').val($(this).data('name'));
-            $('#updateKantor #alamat').val($(this).data('alamat'));
-            $('#updateKantor #id_kantor').val($(this).data('id'));
-        });
-        $('#updateKantor').on('submit', function(e) {
-                e.preventDefault();
-                var form = $(this).serialize();
-
-                $.ajax({
-                    method: 'PUT',
-                    url: "/kantor/"+ $(this).data('id'),
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    data: form,
-                    dataType: 'json',
-                    success: function(response) {
-                        console.log(response);
-                        if (response.status == 1) {
-                            Swal.fire(
-                                'Updated!',
-                                'Kantor berhasil diubah',
-                                'success'
-                            ).then(function() {
-                                location.href = "/kantor";        
-                            });
-                            
-                        } else {
-                            alert("Error: " + response.message);
-                        }
-                    },
-                    error: function(request, status, error) {
-                        alert("Not Ok");
-                    }
-                });
-            });
         //Delete Data
         $(document).on('click', '.delete', function(event) {
             event.preventDefault();
@@ -216,7 +185,7 @@
                 if (result.isConfirmed) {
                     $.ajax({
                         method: 'DELETE',
-                        url: "/beacon/" + id,
+                        url: "/perizinan/surattugas/" + id,
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
@@ -230,7 +199,7 @@
                                     'Data berhasil dihapus',
                                     'success'
                                 ).then(function() {
-                                    location.href = "/beacon";        
+                                    location.href = "/perizinan/surattugas";        
                                 });
                             } else {
                                 alert("Error: " + response.message);

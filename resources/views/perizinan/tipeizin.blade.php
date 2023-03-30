@@ -57,7 +57,7 @@
                 </a>
             </div>
             <div class="col-md-4">
-                <a href="" class="text-decoration-none">
+                <a href="perizinan/tidakpresensi" class="text-decoration-none">
                     <div class="card text-light h-100" style="background-color: #40513B">
                         <div class="card-body text-center">
                             <img src="{{ url('/img/house.png') }}" class="mx-auto d-block" width="100" alt="">
