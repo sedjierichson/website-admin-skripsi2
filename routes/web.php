@@ -30,22 +30,25 @@ Route::get('/login', [LoginController::class, "index"])->name('login');
 Route::post('/login', [LoginController::class, 'loginAkun']);
 Route::get('/logout', [LoginController::class, 'logout']);
 
-Route::get('/home', [HomeController::class, "index"]);
-
-Route::resource('presensi', AbsensiController::class);
-
-Route::resource('kantor', KantorController::class);
-Route::resource('beacon', BeaconController::class);
-
-Route::resource('perizinan/pulangawal', PulangAwalController::class);
-Route::resource('perizinan/meninggalkanlokasikerja', MeninggalkanKantorController::class);
-Route::resource('perizinan/surattugas', SuratTugasController::class);
-Route::resource('perizinan/tidakpresensi', TidakPresensiController::class);
-Route::resource('codelogin', CodeLoginController::class);
-
-Route::get('/perizinan', function(){
-    return view('perizinan.tipeizin', [
-        'title' => 'Menu Izin',
-            'navbar' => 'perizinan',
-    ]);
+Route::middleware('session.has.user')->group(function () {
+    
+    Route::get('/home', [HomeController::class, "index"]);
+    
+    Route::resource('presensi', AbsensiController::class);
+    
+    Route::resource('kantor', KantorController::class);
+    Route::resource('beacon', BeaconController::class);
+    
+    Route::resource('perizinan/pulangawal', PulangAwalController::class);
+    Route::resource('perizinan/meninggalkanlokasikerja', MeninggalkanKantorController::class);
+    Route::resource('perizinan/surattugas', SuratTugasController::class);
+    Route::resource('perizinan/tidakpresensi', TidakPresensiController::class);
+    Route::resource('codelogin', CodeLoginController::class);
+    
+    Route::get('/perizinan', function(){
+        return view('perizinan.tipeizin', [
+            'title' => 'Menu Izin',
+                'navbar' => 'perizinan',
+        ]);
+    });
 });

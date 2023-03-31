@@ -19,11 +19,13 @@
         /* min-height: 300px !important; */
     }
 </style>
+@endsection
 
 @section('container')
 <section class="p-5">
     <div class="container">
         <div class="row text-center g-3 justify-content-center">
+            {{-- <p>{{ session('user') }}</p> --}}
             <div class="col-md-4">
                 <a href="absensi" class="text-decoration-none">
                     <div class="card bg-success text-light h-100">

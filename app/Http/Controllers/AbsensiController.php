@@ -55,7 +55,6 @@ class AbsensiController extends Controller
             'image' => 'admin',
             'img_name' => 'adminawd',
         ]);
-        // $response = Http::asForm()->post('http://127.0.0.1:8888/e-learning/api/presensi.php', $request);
         
         if ($response->successful()) {
             return $response;

@@ -92,7 +92,7 @@
         
                 </form>
             </div>
-            {{-- </div> --}}
+            </div>
         </div>
     </div>
 </div>
@@ -122,7 +122,6 @@
                     if (data.status == 1) {
                         Swal.fire({
                             title: 'Berhasil!',
-                            text: "Berhasil memasukkan data materi baru",
                             icon: 'success'
                         }).then(function() {
                             location.href = "/home";        

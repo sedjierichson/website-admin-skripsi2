@@ -72,8 +72,8 @@ $lastIterationNumber = 0;
             <div class="modal-body">
                 <form id="insertDataAbsen">
                     <div class="mb-3">
-                        <label for="tanggal_presensi">Tanggal Presensi</label>
-                        <input type="date" name="tanggal_presensi" id="tanggal_presensi" class="form-control" placeholder="Masukkan tanggal presensi" required>
+                        <label for="tanggal_awal">Tanggal Presensi</label>  
+                        <input type="date" name="tanggal_awal" id="tanggal_awal" class="form-control" required>
                     </div>
                     <div class="mb-3">
                         <label for="nik_karyawan">NIK Karyawan</label>
@@ -119,6 +119,66 @@ $lastIterationNumber = 0;
 @section('included-js')
     <script type="text/javascript">
         $(document).ready(function() {
+            $('#insertDataAbsen').on('submit', function(e) {
+                e.preventDefault();
+                var form = $(this).serialize();
+                let tanggal = $('#tanggal_awal').val();
+                let nik = $('#nik').val();
+                let id_kantor = $('#id_kantor').val();
+                let jam_masuk = $('#jam_masuk').val();
+                let jam_keluar = $('#jam_keluar').val();
+                console.log(tanggal);
+                if (tanggal != "" && nik != "" && id_kantor != "" && jam_masuk != "" && jam_keluar != ""){
+                    $.ajax({
+                        method: 'POST',
+                        url: "/presensi",
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        data: {
+                            tanggal: tanggal,
+                            nik: nik,
+                            id_kantor: id_kantor,
+                            jam_masuk: jam_masuk,
+                            jam_keluar: jam_keluar,
+                        },
+                        // data: form,
+                        // dataType: 'json',
+                        success: function(response) {
+                            // console.log(response);
+                            data = JSON.parse(response);
+                            console.log(data);
+                            if (data.status == 1) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Berhasil tambah data presensi',
+                                    text: "Data presensi ditambahkan",
+                                }).then(function() {
+                                    location.href = "/presensi";        
+                                });
+                                // showList($('table tr').length, response.message, $('#nama_kategori').val());
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Gagal tambah data absen',
+                                    text: data.message,
+                                });
+                            }
+                            // $('#tambahKategoriModal').modal('hide');
+                            // $('#insertKategori')[0].reset();
+                        },
+                        error: function(request, status, error) {
+                            console.log(error);
+                            // Swal.fire({
+                            //     icon: 'error',
+                            //     title: 'Gagal tambah kategori',
+                            //     text: data.message,
+                            // });
+
+                        }
+                    });
+            }
+            });
             $(document).on('click', '.delete', function(event) {
                 event.preventDefault();
                 var id = $(this).data('id');
@@ -161,74 +221,6 @@ $lastIterationNumber = 0;
                         });
                     }
                 });
-            });
-
-            $('#insertDataAbsen').on('submit', function(e) {
-                e.preventDefault();
-                var form = $(this).serialize();
-                // console.log(form);
-                // var url = $(this).attr('action');
-                let tanggal = $('#tanggal_presensi').val();
-                let nik = $('#nik').val();
-                let id_kantor = $('#id_kantor').val();
-                let jam_masuk = $('#jam_masuk').val();
-                let jam_keluar = $('#jam_keluar').val();
-                // let img_name = $('#foto').val();
-                console.log(tanggal);
-                console.log(nik);
-                console.log(id_kantor);
-                console.log(jam_masuk);
-                console.log(jam_keluar);
-                if (tanggal != "" && nik != "" && id_kantor != "" && jam_masuk != "" && jam_keluar != ""){
-                    $.ajax({
-                        method: 'POST',
-                        url: "/presensi",
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        data: {
-                            tangal: tanggal,
-                            nik: nik,
-                            id_kantor: id_kantor,
-                            jam_masuk: jam_masuk,
-                            jam_keluar: jam_keluar,
-                        },
-                        // data: form,
-                        // dataType: 'json',
-                        success: function(response) {
-                            // console.log(response);
-                            data = JSON.parse(response);
-                            console.log(data);
-                            if (data.status == 1) {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Berhasil tambah data presensi',
-                                    text: "Data presensi ditambahkan",
-                                }).then(function() {
-                                    location.href = "/presensi";        
-                                });
-                                // showList($('table tr').length, response.message, $('#nama_kategori').val());
-                            } else {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Gagal tambah data absen',
-                                    text: data.message,
-                                });
-                            }
-                            // $('#tambahKategoriModal').modal('hide');
-                            // $('#insertKategori')[0].reset();
-                        },
-                        error: function(request, status, error) {
-                            console.log(error);
-                            // Swal.fire({
-                            //     icon: 'error',
-                            //     title: 'Gagal tambah kategori',
-                            //     text: data.message,
-                            // });
-
-                        }
-                    });
-            }
             });
         });
     </script>
