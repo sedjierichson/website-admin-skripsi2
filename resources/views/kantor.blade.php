@@ -30,9 +30,9 @@
                                 <td>{{ $data['alamat'] }}</td>
                                 <td>
                                     <a href="#" data-name="{{ $data['nama'] }}" data-alamat="{{ $data['alamat'] }}" data-id="{{ $data['id'] }}"
-                                        class="btn btn-warning edit">Edit</a>
+                                        class="btn btn-warning edit"><i class="fa-solid fa-pen-to-square"></i></a>
                                     <a href="#" data-name="{{ $data['id'] }}" data-id="{{ $data['id'] }}"
-                                        class="btn btn-danger delete">Hapus</a>
+                                        class="btn btn-danger delete"><i class="fas fa-trash"></i></a>
                                 </td>
                             </tr>
                         @endforeach

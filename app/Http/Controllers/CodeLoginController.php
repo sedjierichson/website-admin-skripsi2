@@ -66,7 +66,12 @@ class CodeLoginController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $response = Http::put("http://127.0.0.1:8888/api-presensi/api-presensi/api/pegawai.php", $request);
+        if ($response->successful()) {
+            return $response;
+        } else {
+            return json_encode(['status' => 0, 'message' => $this->serverErrorMsg]);
+        }
     }
 
     /**
@@ -74,6 +79,11 @@ class CodeLoginController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $response = Http::delete("http://127.0.0.1:8888/api-presensi/api-presensi/api/pegawai.php", ['id' => $id]);
+        if ($response->successful()) {
+            return $response;
+        } else {
+            return json_encode(['status' => 0, 'message' => $this->serverErrorMsg]);
+        }
     }
 }

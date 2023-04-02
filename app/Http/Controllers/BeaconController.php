@@ -79,7 +79,12 @@ class BeaconController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $response = Http::put("http://127.0.0.1:8888/api-presensi/api-presensi/api/beacon.php", $request);
+        if ($response->successful()) {
+            return $response;
+        } else {
+            return json_encode(['status' => 0, 'message' => $this->serverErrorMsg]);
+        }
     }
 
     /**

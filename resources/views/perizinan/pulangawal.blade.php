@@ -38,7 +38,7 @@
                             {{-- <a href="#" data-name="{{ $data['nama'] }}" data-id="{{ $data['id'] }}"
                                 class="btn btn-warning edit">Edit</a> --}}
                             <a href="#" data-id="{{ $data['id'] }}"
-                                class="btn btn-danger delete">Hapus</a>
+                                class="btn btn-danger delete"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
                 @endforeach

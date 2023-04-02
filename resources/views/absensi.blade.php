@@ -49,9 +49,9 @@ $lastIterationNumber = 0;
                         <td><img src="{{ $data['foto'] }}" width="120"></td>
                         <td>
                             <a href="#" data-name="{{ $data['nik'] }}" data-id="{{ $data['id'] }}"
-                                class="btn btn-warning edit">Edit</a>
+                                class="btn btn-warning edit"><i class="fa-solid fa-pen-to-square"></i></a>
                             <a href="#" data-name="{{ $data['nik'] }}" data-id="{{ $data['id'] }}"
-                                class="btn btn-danger delete">Hapus</a>
+                                class="btn btn-danger delete"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
                 @endforeach

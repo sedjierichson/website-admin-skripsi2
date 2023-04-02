@@ -33,10 +33,10 @@
                                 <td>{{ $data['imei'] }}</td>
                                 <td>{{ $data['security_code'] }}</td>
                                 <td>
-                                    <a href="#" data-name="{{ $data['nama'] }}" data-id="{{ $data['id'] }}"
-                                        class="btn btn-warning edit">Edit</a>
-                                    <a href="#" data-name="{{ $data['nama'] }}" data-id="{{ $data['id'] }}"
-                                        class="btn btn-danger delete">Hapus</a>
+                                    <a href="#" data-name="{{ $data['nama'] }}" data-nik="{{ $data['nik'] }}" data-id="{{ $data['id'] }}" data-code="{{ $data['security_code'] }}" data-imei="{{ $data['imei'] }}"
+                                        class="btn btn-warning edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    <a href="#" data-id="{{ $data['id'] }}"
+                                        class="btn btn-danger delete"><i class="fas fa-trash"></i></a>
                                 </td>
                             </tr>
                         @endforeach
@@ -51,7 +51,7 @@
 @section('other')
 
 {{-- edit modal --}}
-<div class="modal fade" id="editKantorModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="editPegawaiModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -59,17 +59,23 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="updateKantor">
-                    <input type="text" id="id_kantor" name="id_kantor" hidden required>
+                <form id="updatePegawai">
+                    <input type="text" id="id" name="id" hidden required>
+                    <input type="text" id="nik" name="nik" hidden required>
                     <div class="mb-3">
-                        <label for="nama">Nama Kantor</label>
+                        <label for="nama">Nama Pegawai</label>
                         <input type="text" id="nama" name="nama" class="form-control"
-                            placeholder="Masukkan nama kantor" required>
+                            readonly required>
                     </div>
                     <div class="mb-3">
-                        <label for="alamat">Alamat Kantor</label>
-                        <input type="text" id="alamat" name="alamat" class="form-control"
-                            placeholder="Masukkan alamat kantor" required>
+                        <label for="imei">IMEI</label>
+                        <input type="text" id="imei" name="imei" class="form-control"
+                            readonly required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="security_code">Security Code Login</label>
+                        <input type="text" id="security_code" name="security_code" class="form-control"
+                        required>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -143,18 +149,21 @@
         $(document).on('click', '.edit', function(event) {
             event.preventDefault();
             editEvent = event;
-            $('#editKantorModal').modal('show');
-            $('#updateKantor #nama').val($(this).data('name'));
-            $('#updateKantor #alamat').val($(this).data('alamat'));
-            $('#updateKantor #id_kantor').val($(this).data('id'));
+            $('#editPegawaiModal').modal('show');
+            $('#updatePegawai #id').val($(this).data('id'));
+            $('#updatePegawai #nik').val($(this).data('nik'));
+            $('#updatePegawai #nama').val($(this).data('name'));
+            $('#updatePegawai #imei').val($(this).data('imei'));
+            $('#updatePegawai #security_code').val($(this).data('code'));
         });
-        $('#updateKantor').on('submit', function(e) {
+
+        $('#updatePegawai').on('submit', function(e) {
                 e.preventDefault();
                 var form = $(this).serialize();
 
                 $.ajax({
                     method: 'PUT',
-                    url: "/kantor/"+ $(this).data('id'),
+                    url: "/codelogin/"+ $(this).data('nik'),
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
@@ -165,10 +174,10 @@
                         if (response.status == 1) {
                             Swal.fire(
                                 'Updated!',
-                                'Kantor berhasil diubah',
+                                'Security code berhasil diubah',
                                 'success'
                             ).then(function() {
-                                location.href = "/kantor";        
+                                location.href = "/codelogin";        
                             });
                             
                         } else {
@@ -186,7 +195,7 @@
             var id = $(this).data('id');
             Swal.fire({
                 title: 'Hapus Data Presensi',
-                text: "Apakah anda yakin ingin data kantor ?",
+                text: "Apakah anda yakin ingin data pegawai ?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -197,7 +206,7 @@
                 if (result.isConfirmed) {
                     $.ajax({
                         method: 'DELETE',
-                        url: "/kantor/" + id,
+                        url: "/codelogin/" + id,
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
@@ -211,7 +220,7 @@
                                     'Data berhasil dihapus',
                                     'success'
                                 ).then(function() {
-                                    location.href = "/kantor";        
+                                    location.href = "/codelogin";        
                                 });
                             } else {
                                 alert("Error: " + response.message);

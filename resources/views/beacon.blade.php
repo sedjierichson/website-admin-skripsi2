@@ -47,10 +47,8 @@
                         <td>{{ $data['nama'] }}</td>
                         <td>{{ $data['lokasi'] }}</td>
                         <td>
-                            {{-- <a href="#" data-name="{{ $data['nama'] }}" data-id="{{ $data['id'] }}"
-                                class="btn btn-warning edit">Edit</a> --}}
-                            <a href="#" data-id="{{ $data['id_beacon'] }}"
-                                class="btn btn-danger delete">Hapus</a>
+                            <a href="#" data-id="{{ $data['id_beacon'] }}" data-namabeacon = "{{ $data['nama'] }}" data-lokasi="{{ $data['lokasi'] }}" data-uuid="{{ $data['uuid'] }}" data-kantor= "{{ $data['lokasi_kantor'] }}"class="btn btn-warning edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                            <a href="#" data-id="{{ $data['id_beacon'] }}" class="btn btn-danger delete"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
                 @endforeach
@@ -94,6 +92,42 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Tambah</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editDataModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Tambah beacon baru</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="updateBeacon">
+                    <input type="text" id="id" name="id" hidden required>
+                    <div class="mb-3">
+                        <label for="kantor">Lokasi Kantor</label>  
+                        <input type="text" name="kantor" id="kantor" class="form-control" readonly required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nama">Nama Beacon</label>  
+                        <input type="text" name="nama" id="nama" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="uuid">UUID Beacon</label>  
+                        <input type="text" name="uuid" id="uuid" class="form-control" readonly required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="lokasi">Lokasi Penempatan</label>  
+                        <input type="text" name="lokasi" id="lokasi" class="form-control" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
                     </div>
                 </form>
             </div>
@@ -191,18 +225,21 @@
         $(document).on('click', '.edit', function(event) {
             event.preventDefault();
             editEvent = event;
-            $('#editKantorModal').modal('show');
-            $('#updateKantor #nama').val($(this).data('name'));
-            $('#updateKantor #alamat').val($(this).data('alamat'));
-            $('#updateKantor #id_kantor').val($(this).data('id'));
+            $('#editDataModal').modal('show');
+            $('#updateBeacon #id').val($(this).data('id'));
+            $('#updateBeacon #nama').val($(this).data('namabeacon'));
+            $('#updateBeacon #lokasi').val($(this).data('lokasi'));
+            $('#updateBeacon #uuid').val($(this).data('uuid'));
+            $('#updateBeacon #kantor').val($(this).data('kantor'));
         });
-        $('#updateKantor').on('submit', function(e) {
+
+        $('#updateBeacon').on('submit', function(e) {
                 e.preventDefault();
                 var form = $(this).serialize();
 
                 $.ajax({
                     method: 'PUT',
-                    url: "/kantor/"+ $(this).data('id'),
+                    url: "/beacon/"+ $(this).data('id'),
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
@@ -213,10 +250,10 @@
                         if (response.status == 1) {
                             Swal.fire(
                                 'Updated!',
-                                'Kantor berhasil diubah',
+                                'Beacon berhasil diubah',
                                 'success'
                             ).then(function() {
-                                location.href = "/kantor";        
+                                location.href = "/beacon";        
                             });
                             
                         } else {
