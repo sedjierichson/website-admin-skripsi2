@@ -47,6 +47,7 @@
                         <td>{{ $data['nama'] }}</td>
                         <td>{{ $data['lokasi'] }}</td>
                         <td>
+                            <a href="template/{{ $data['nama'] }}/{{ $data['uuid'] }}" class="btn btn-success copyCodingan"><i class="fa-solid fa-code"></i></a>
                             <a href="#" data-id="{{ $data['id_beacon'] }}" data-namabeacon = "{{ $data['nama'] }}" data-lokasi="{{ $data['lokasi'] }}" data-uuid="{{ $data['uuid'] }}" data-kantor= "{{ $data['lokasi_kantor'] }}"class="btn btn-warning edit"><i class="fa-solid fa-pen-to-square"></i></a>
                             <a href="#" data-id="{{ $data['id_beacon'] }}" class="btn btn-danger delete"><i class="fas fa-trash"></i></a>
                         </td>
@@ -234,37 +235,38 @@
         });
 
         $('#updateBeacon').on('submit', function(e) {
-                e.preventDefault();
-                var form = $(this).serialize();
+            e.preventDefault();
+            var form = $(this).serialize();
 
-                $.ajax({
-                    method: 'PUT',
-                    url: "/beacon/"+ $(this).data('id'),
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    data: form,
-                    dataType: 'json',
-                    success: function(response) {
-                        console.log(response);
-                        if (response.status == 1) {
-                            Swal.fire(
-                                'Updated!',
-                                'Beacon berhasil diubah',
-                                'success'
-                            ).then(function() {
-                                location.href = "/beacon";        
-                            });
-                            
-                        } else {
-                            alert("Error: " + response.message);
-                        }
-                    },
-                    error: function(request, status, error) {
-                        alert("Not Ok");
+            $.ajax({
+                method: 'PUT',
+                url: "/beacon/"+ $(this).data('id'),
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: form,
+                dataType: 'json',
+                success: function(response) {
+                    console.log(response);
+                    if (response.status == 1) {
+                        Swal.fire(
+                            'Updated!',
+                            'Beacon berhasil diubah',
+                            'success'
+                        ).then(function() {
+                            location.href = "/beacon";        
+                        });
+                        
+                    } else {
+                        alert("Error: " + response.message);
                     }
-                });
+                },
+                error: function(request, status, error) {
+                    alert("Not Ok");
+                }
             });
+        });
+        
         //Delete Data
         $(document).on('click', '.delete', function(event) {
             event.preventDefault();

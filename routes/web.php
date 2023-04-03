@@ -46,6 +46,7 @@ Route::middleware('session.has.user')->group(function () {
     Route::resource('perizinan/tidakpresensi', TidakPresensiController::class);
     Route::resource('codelogin', CodeLoginController::class);
     Route::resource('jamkerja', JamKerjaController::class);
+    Route::get('template/{nama}/{uuid}', [BeaconController::class, "showTemplate"])->name('halaman.template');
     
     Route::get('/perizinan', function(){
         return view('perizinan.tipeizin', [

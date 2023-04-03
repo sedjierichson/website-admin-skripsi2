@@ -99,4 +99,15 @@ class BeaconController extends Controller
             return json_encode(['status' => 0, 'message' => $this->serverErrorMsg]);
         }
     }
+    
+    public function showTemplate(string $nama, string $uuid){
+        // echo $uuid;
+        $param = [
+            'title' => 'Data Beacon',
+            'navbar' => 'beacon',
+            'uuid' => $uuid,
+            'nama' => $nama
+        ];
+        return \view('template', $param);
+    }
 }

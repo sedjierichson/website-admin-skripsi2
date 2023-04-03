@@ -15,7 +15,7 @@ class JamKerjaController extends Controller
         $response = Http::get("http://127.0.0.1:8888/api-presensi/api-presensi/api/jamkerja.php");
         $param = [
             'title' => 'Jam Kerja',
-            'navbar' => 'jam kerja',
+            'navbar' => 'jamkerja',
         ];
         if ($response->successful()) {
             $collection = $response->collect();
