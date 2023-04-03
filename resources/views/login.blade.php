@@ -120,12 +120,13 @@
                     console.log(response);
                     let data = JSON.parse(response);
                     if (data.status == 1) {
-                        Swal.fire({
-                            title: 'Berhasil!',
-                            icon: 'success'
-                        }).then(function() {
-                            location.href = "/home";        
-                        });
+                        location.href = "/home";
+                        // Swal.fire({
+                        //     title: 'Berhasil!',
+                        //     icon: 'success'
+                        // }).then(function() {
+                        //     location.href = "/home";        
+                        // });
                     } else {
                         console.log(data.message);
                         Swal.fire({

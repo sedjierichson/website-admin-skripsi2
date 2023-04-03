@@ -11,6 +11,7 @@ use App\Http\Controllers\MeninggalkanKantorController;
 use App\Http\Controllers\SuratTugasController;
 use App\Http\Controllers\TidakPresensiController;
 use App\Http\Controllers\CodeLoginController;
+use App\Http\Controllers\JamKerjaController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -44,6 +45,7 @@ Route::middleware('session.has.user')->group(function () {
     Route::resource('perizinan/surattugas', SuratTugasController::class);
     Route::resource('perizinan/tidakpresensi', TidakPresensiController::class);
     Route::resource('codelogin', CodeLoginController::class);
+    Route::resource('jamkerja', JamKerjaController::class);
     
     Route::get('/perizinan', function(){
         return view('perizinan.tipeizin', [

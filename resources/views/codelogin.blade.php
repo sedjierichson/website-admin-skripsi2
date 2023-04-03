@@ -33,7 +33,7 @@
                                 <td>{{ $data['imei'] }}</td>
                                 <td>{{ $data['security_code'] }}</td>
                                 <td>
-                                    <a href="#" data-name="{{ $data['nama'] }}" data-nik="{{ $data['nik'] }}" data-id="{{ $data['id'] }}" data-code="{{ $data['security_code'] }}" data-imei="{{ $data['imei'] }}"
+                                    <a href="#" data-name="{{ $data['nik'] }} - {{ $data['nama'] }}" data-nik="{{ $data['nik'] }}" data-id="{{ $data['id'] }}" data-code="{{ $data['security_code'] }}" data-imei="{{ $data['imei'] }}"
                                         class="btn btn-warning edit"><i class="fa-solid fa-pen-to-square"></i></a>
                                     <a href="#" data-id="{{ $data['id'] }}"
                                         class="btn btn-danger delete"><i class="fas fa-trash"></i></a>
@@ -63,7 +63,7 @@
                     <input type="text" id="id" name="id" hidden required>
                     <input type="text" id="nik" name="nik" hidden required>
                     <div class="mb-3">
-                        <label for="nama">Nama Pegawai</label>
+                        <label for="nama">NIK - Nama Pegawai</label>
                         <input type="text" id="nama" name="nama" class="form-control"
                             readonly required>
                     </div>
