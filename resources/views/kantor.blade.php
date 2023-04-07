@@ -10,7 +10,7 @@
         <div class="col-10">
     
             <div class="table-responsive justify-content-center mb-5">
-                <table class="table table-bordered text-center">
+                <table class="table table-bordered text-center pt-3" id="listTable">
                     <thead style="background-color: #363636; color:#ffffff;">
                         <tr>
                             <th class = "col" scope="col">#</th>
@@ -106,6 +106,7 @@
 
 @section('included-js')
     <script type="text/javascript">
+    $('#listTable').DataTable();
         //Add Data
         $('#insertDataKantor').on('submit', function(e) {
             e.preventDefault();

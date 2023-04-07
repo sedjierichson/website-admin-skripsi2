@@ -5,14 +5,11 @@
         <h3>Jam Kerja Kantor</h3>
     </div>
     <div class="row justify-content-center">
-
-        <div class="col-10">
-    
+        <div class="col">
             <div class="table-responsive justify-content-center mb-5">
                 <table class="table table-bordered text-center">
                     <thead style="background-color: #363636; color:#ffffff;">
                         <tr>
-                            <th scope="col">#</th>
                             <th  scope="col">Hari</th>
                             <th  scope="col">Jam Masuk</th>
                             <th  scope="col">Jam Pulang</th>
@@ -22,10 +19,6 @@
                     <tbody id="memberKategori">
                         @foreach ($datas as $data)
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                @php
-                                    $lastIterationNumber = $loop->iteration;
-                                @endphp
                                 <td>{{ $data['hari'] }}</td>
                                 <td>{{ $data['jam_masuk'] }}</td>
                                 <td>{{ $data['jam_pulang'] }}</td>

@@ -23,8 +23,19 @@
             </div>
         </div>
     </div>
-    <div class="table-responsive col-xl justify-content-center mb-5">
-        <table class="table table-bordered text-center">
+    <div class="row">
+        <div class="col-5">
+            <select class="form-select mb-3" id="filterKantor">
+                <option selected>Pilih Kantor</option>
+            </select>
+            
+        </div>
+        <div class="col-5">
+            <button class="p-auto" id="resetButton">Reset</button>
+        </div>
+    </div>
+    <div class="table-responsive col-xl justify-content-center mb-5">  
+        <table class="table table-bordered text-center" id="listTable">
             <thead style="background-color: #363636; color:#ffffff;">
                 <tr>
                     <th scope="col">#</th>
@@ -166,6 +177,20 @@
 @section('included-js')
     <script type="text/javascript">
         //Add Data
+        $(document).ready(function(){
+            var table = $('#listTable').DataTable({dom: 'lrt'});
+            table.column(1).data().unique().sort().each(function(d,j){
+                $('#filterKantor').append('<option value="' + d + '">' + d + '</option')
+            });
+
+            $('#filterKantor').on('change', function(){
+                table.column(1).search(this.value).draw();
+            });
+            $('#resetButton').click(function(){
+                table.columns().search('').draw();
+                // $('#listTable').DataTable({dom: 'lrt'}).fnFilter('');
+            });
+        });
         $('#insertDataBeacon').on('submit', function(e) {
             e.preventDefault();
             var form = $(this).serialize();
@@ -196,7 +221,7 @@
                                 title: 'Berhasil',
                                 text: "Beacon ditambahkan",
                             }).then(function() {
-                                location.href = "/kantor";        
+                                location.href = "/beacon";        
                             });
                         } else {
                             Swal.fire({

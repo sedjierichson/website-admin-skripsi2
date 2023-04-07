@@ -3,14 +3,16 @@
 @section('container')
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h3>Data Security Code Login</h3>
-        {{-- <a class="btn" data-bs-toggle="modal" data-bs-target="#tambahDataModal" style="background-color: #ffa133">Tambah Data</a> --}}
+        <div class="col-3">
+
+            <input type="text" placeholder="Cari NIK" id="filterNIK" class="form-control">
+        </div>
     </div>
     <div class="row justify-content-center">
-
         <div class="col-10">
     
-            <div class="table-responsive justify-content-center mb-5">
-                <table class="table table-bordered text-center">
+            <div class="table-responsive justify-content-center mb-5" >
+                <table class="table table-bordered text-center pt-3" id="listTable">
                     <thead style="background-color: #363636; color:#ffffff;">
                         <tr>
                             <th scope="col">#</th>
@@ -90,6 +92,10 @@
 
 @section('included-js')
     <script type="text/javascript">
+        var table = $('#listTable').DataTable({dom: 'lrt'});
+        $('#filterNIK').on('input', function(){
+            table.columns([1]).search(this.value).draw();
+        })
         //Add Data
         $('#insertDataKantor').on('submit', function(e) {
             e.preventDefault();

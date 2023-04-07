@@ -19,7 +19,7 @@ $lastIterationNumber = 0;
         <a class="btn" data-bs-toggle="modal" data-bs-target="#tambahDataModal" style="background-color: #ffa133" >Tambah data presensi</a>
     </div>
     <div class="table-responsive col-xl justify-content-center mb-5">
-        <table class="table table-bordered text-center">
+        <table class="table table-bordered text-center" id="listTable">
             <thead id="head">
                 <tr>
                     <th scope="col">#</th>
@@ -119,6 +119,7 @@ $lastIterationNumber = 0;
 @section('included-js')
     <script type="text/javascript">
         $(document).ready(function() {
+            $('#listTable').DataTable();
             $('#insertDataAbsen').on('submit', function(e) {
                 e.preventDefault();
                 var form = $(this).serialize();
