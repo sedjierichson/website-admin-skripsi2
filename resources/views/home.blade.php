@@ -13,11 +13,11 @@
     <div class="container">
         <div class="row text-center g-3 justify-content-center">
             <div class="col-md-4">
-                <a href="absensi" class="text-decoration-none">
+                <a href="presensi" class="text-decoration-none">
                     <div class="card text-light h-100" style="background-color: #DDFFBB">
                         <div class="card-body text-center">
                             <img src="{{ url('/img/calendar.png') }}" class="mx-auto d-block" width="100" alt="">
-                            <h3 class="mt-4" style="color: black; font-weight:bold">ABSENSI</h3>
+                            <h3 class="mt-4" style="color: black; font-weight:bold">PRESENSI</h3>
                         </div>
                     </div>
                 </a>

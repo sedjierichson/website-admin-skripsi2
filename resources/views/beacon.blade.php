@@ -31,7 +31,7 @@
             
         </div>
         <div class="col-5">
-            <button class="p-auto" id="resetButton">Reset</button>
+            <button class="btn btn-secondary" id="resetButton">Reset</button>
         </div>
     </div>
     <div class="table-responsive col-xl justify-content-center mb-5">  

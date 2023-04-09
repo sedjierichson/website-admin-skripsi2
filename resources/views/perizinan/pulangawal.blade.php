@@ -5,8 +5,28 @@
         <h4 style="font-weight: bold;">Data Izin Pulang Lebih Awal</h4>
         <a class="btn" data-bs-toggle="modal" data-bs-target="#tambahDataModal" style="background-color: #ffa133">Tambah Data</a>
     </div>
+    <div class="row">
+        <div class="col">
+            <select class="form-select mb-3" id="filterNIK">
+                <option id="baba" selected>Pilih NIK</option>
+            </select>
+            
+        </div>
+        <div class="col">
+            <select class="form-select mb-3" id="filterStatus">
+                <option selected>Pilih Status</option>
+                <option value="Terima">Terima</option>
+                <option value="Tolak">Tolak</option>
+                <option value="Pending">Pending</option>
+            </select>
+            
+        </div>
+        <div class="col">
+            <button class="btn btn-secondary" id="resetButton">Reset</button>
+        </div>
+    </div>
     <div class="table-responsive col-xl justify-content-center mb-5">
-        <table class="table table-bordered text-center">
+        <table class="table table-bordered text-center" id="listTable">
             <thead style="background-color: #363636; color:#ffffff;">
                 <tr>
                     <th scope="col">#</th>
@@ -17,6 +37,7 @@
                     <th scope="col">Alasan</th>
                     <th scope="col">Tanggal Pengajuan</th>
                     <th scope="col">Tanggal Respon</th>
+                    <th scope="col">Status</th>
                     <th scope="col">Aksi</th>
                 </tr>
             </thead>
@@ -34,6 +55,14 @@
                         <td>{{ $data['alasan'] }}</td>
                         <td>{{ $data['tanggal_pengajuan'] }}</td>
                         <td>{{ $data['tanggal_respon'] }}</td>
+                        <td>@if ($data['status'] == '1')
+                            Pending
+                            @elseif ($data['status'] == '2')
+                            Terima
+                            @else
+                            Tolak
+                        @endif
+                        </td>
                         <td>
                             {{-- <a href="#" data-name="{{ $data['nama'] }}" data-id="{{ $data['id'] }}"
                                 class="btn btn-warning edit">Edit</a> --}}
@@ -97,6 +126,23 @@
 
 @section('included-js')
     <script type="text/javascript">
+        $(document).ready(function(){
+            var table = $('#listTable').DataTable({dom: 'lrt'});
+            table.column(1).data().unique().sort().each(function(d,j){
+                $('#filterNIK').append('<option value="' + d + '">' + d + '</option')
+            });
+            $('#filterNIK').on('change', function(){
+                table.column(1).search(this.value).draw();
+            });
+            $('#filterStatus').on('change', function(){
+                table.column(8).search(this.value).draw();
+            });
+            $('#resetButton').click(function(){
+                $('#filterNIK').prop('selectedIndex', 0);
+                $('#filterStatus').prop('selectedIndex', 0);
+                table.columns([0,1,2,3,4,5,6,7,8,9]).search('').draw();
+            });
+        });
         //Add Data
         $('#insertDataIzin').on('submit', function(e) {
             e.preventDefault();

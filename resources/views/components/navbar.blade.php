@@ -23,8 +23,18 @@
             <a class="nav-link {{ ($navbar === "kantor") ? 'active' : '' }}" aria-current="page" href="/kantor">Kantor</a>
           </li>
 
-          <li class="nav-item ms-3">
-            <a class="nav-link {{ ($navbar === "perizinan") ? 'active' : '' }}" aria-current="page" href="/perizinan">Perizinan</a>
+          <li class="nav-item dropdown ms-3">
+            <a class="nav-link dropdown-toggle {{ ($navbar === "perizinan") ? 'active' : '' }}" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Perizinan
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="pulangawal">Pulang Cepat</a></li>
+              <li><a class="dropdown-item" href="meninggalkanlokasikerja">Meninggalkan Lokasi Kerja</a></li>
+              <li><a class="dropdown-item" href="surattugas">Surat Tugas</a></li>
+              <li><a class="dropdown-item" href="tidakpresensi">Tidak Presensi</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/perizinan">Lihat Tipe Izin</a></li>
+            </ul>
           </li>
           <li class="nav-item ms-3">
             <a class="nav-link {{ ($navbar === "beacon") ? 'active' : '' }}" aria-current="page" href="/beacon">Beacon</a>

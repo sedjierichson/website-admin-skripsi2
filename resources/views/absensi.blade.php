@@ -18,17 +18,45 @@ $lastIterationNumber = 0;
         <h3>Data Presensi Karyawan</h3>
         <a class="btn" data-bs-toggle="modal" data-bs-target="#tambahDataModal" style="background-color: #ffa133" >Tambah data presensi</a>
     </div>
+    <div class="row">
+        <div class="col">
+            <input type="date" class="form-control" id="filterTanggal" placeholder="Pilih Tanggal">
+        </div>
+        <div class="col">
+            <select class="form-select mb-3" id="filterNIK">
+                <option id="baba" selected>Pilih NIK</option>
+            </select>
+        </div>
+        <div class="col">
+            <select class="form-select mb-3" id="filterKategori">
+                <option selected>Pilih Kategori</option>
+                <option value="A">A - Masuk & Tepat Waktu</option>
+                <option value="B">B - Masuk Telat & Pulang Tepat Waktu</option>
+                <option value="C">C - Masuk Tepat Waktu & Pulang Cepat</option>
+                <option value="D">D - Masuk Telat & Pulang Cepat</option>
+            </select>
+            
+        </div>
+        <div class="col">
+            <select class="form-select mb-3" id="filterKantor">
+                <option selected>Pilih Kantor</option>
+            </select>
+        </div>
+        <div class="col">
+            <button class="btn btn-secondary" id="resetButton">Reset</button>
+        </div>
+    </div>
     <div class="table-responsive col-xl justify-content-center mb-5">
         <table class="table table-bordered text-center" id="listTable">
             <thead id="head">
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Tanggal</th>
-                    <th scope="col">NIK</th>
-                    <th scope="col">Nama</th>
+                    <th scope="col">NIK - Nama</th>
                     <th scope="col">Lokasi</th>
                     <th scope="col">Jam Masuk</th>
                     <th scope="col">Jam Keluar</th>
+                    <th scope="col">Kategori</th>
                     <th scope="col">Foto</th>
                     <th scope="col">Aksi</th>
                 </tr>
@@ -41,11 +69,11 @@ $lastIterationNumber = 0;
                             $lastIterationNumber = $loop->iteration;
                         @endphp
                         <td>{{ $data['tanggal'] }}</td>
-                        <td>{{ $data['nik'] }}</td>
-                        <td>{{ $data['nama'] }}</td>
+                        <td>{{ $data['nik'] }} - {{ $data['nama'] }}</td>
                         <td>{{ $data['lokasi'] }}</td>
                         <td>{{ $data['jam_masuk'] }}</td>
                         <td>{{ $data['jam_keluar'] }}</td>
+                        <td>{{ $data['kategori'] }}</td>
                         <td><img src="{{ $data['foto'] }}" width="120"></td>
                         <td>
                             <a href="#" data-name="{{ $data['nik'] }}" data-id="{{ $data['id'] }}"
@@ -119,7 +147,33 @@ $lastIterationNumber = 0;
 @section('included-js')
     <script type="text/javascript">
         $(document).ready(function() {
-            $('#listTable').DataTable();
+            var table = $('#listTable').DataTable({dom: 'lrt'});
+            table.column(2).data().unique().sort().each(function(d,j){
+                $('#filterNIK').append('<option value="' + d + '">' + d + '</option')
+            });
+            table.column(3).data().unique().sort().each(function(d,j){
+                $('#filterKantor').append('<option value="' + d + '">' + d + '</option')
+            });
+            $('#filterTanggal').on('change', function(){
+                // var date = $(this).val();
+                table.column(1).search(this.value).draw();
+            });
+            $('#filterNIK').on('change', function(){
+                table.column(2).search(this.value).draw();
+            });
+            $('#filterKantor').on('change', function(){
+                table.column(3).search(this.value).draw();
+            });
+            $('#filterKategori').on('change', function(){
+                table.column(6).search(this.value).draw();
+            });
+            
+            $('#resetButton').click(function(){
+                $('#filterKategori').prop('selectedIndex', 0);
+                $('#filterNIK').prop('selectedIndex', 0);
+                table.columns([0,1,2,3,4,5,6,7,8]).search('').draw();
+            });
+
             $('#insertDataAbsen').on('submit', function(e) {
                 e.preventDefault();
                 var form = $(this).serialize();
