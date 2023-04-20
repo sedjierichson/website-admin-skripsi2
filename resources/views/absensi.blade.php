@@ -1,12 +1,12 @@
 @extends('layouts.main')
 
 @php
-$lastIterationNumber = 0;
+    $lastIterationNumber = 0;
 @endphp
 
 @section('included-css')
     <style>
-        #head{
+        #head {
             background-color: #363636;
             color: #ffffff;
         }
@@ -16,7 +16,8 @@ $lastIterationNumber = 0;
 @section('container')
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h3>Data Presensi Karyawan</h3>
-        <a class="btn" data-bs-toggle="modal" data-bs-target="#tambahDataModal" style="background-color: #ffa133" >Tambah data presensi</a>
+        <a class="btn" data-bs-toggle="modal" data-bs-target="#tambahDataModal" style="background-color: #ffa133">Tambah data
+            presensi</a>
     </div>
     <div class="row">
         <div class="col">
@@ -35,7 +36,7 @@ $lastIterationNumber = 0;
                 <option value="C">C - Masuk Tepat Waktu & Pulang Cepat</option>
                 <option value="D">D - Masuk Telat & Pulang Cepat</option>
             </select>
-            
+
         </div>
         <div class="col">
             <select class="form-select mb-3" id="filterKantor">
@@ -90,88 +91,88 @@ $lastIterationNumber = 0;
 @endsection
 
 @section('other')
-<div class="modal fade" id="tambahDataModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Tambah kategori baru</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="insertDataAbsen">
-                    <div class="mb-3">
-                        <label for="tanggal_awal">Tanggal Presensi</label>  
-                        <input type="date" name="tanggal_awal" id="tanggal_awal" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="nik_karyawan">NIK Karyawan</label>
-                        <select class="form-select" id="nik">
-                            <option selected>Pilih Karyawan</option>
-                            @foreach ($pegawais as $pegawai)
-                                <option value="{{ $pegawai['nik'] }}">{{ $pegawai['nik'] }} - {{ $pegawai['nama'] }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="lokasi_kantor">Lokasi Kantor</label>
-                        <select class="form-select" id="id_kantor">
-                            <option selected>Pilih Kantor</option>
-                            @foreach ($kantors as $kantor)
-                                <option value="{{ $kantor['id'] }}">{{ $kantor['nama'] }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="jam_masuk">Jam Masuk</label>
-                        <input type="time" name="jam_masuk" id="jam_masuk" class="form-control" placeholder="Masukkan jam masuk" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="jam_keluar">Jam Keluar</label>
-                        <input type="time" name="jam_keluar" id="jam_keluar" class="form-control" placeholder="Masukkan jam keluar" required>
-                    </div>
-                    {{-- <div class="mb-3">
-                        <label for="foto">Foto</label>  
-                        <input type="text" name="foto" id="foto" class="form-control" placeholder="Masukkan foto" required>
-                    </div> --}}
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Tambah</button>
-                    </div>
-                </form>
+    <div class="modal fade" id="tambahDataModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Tambah kategori baru</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="insertDataAbsen">
+                        <div class="mb-3">
+                            <label for="tanggal_awal">Tanggal Presensi</label>
+                            <input type="date" name="tanggal_awal" id="tanggal_awal" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="nik_karyawan">NIK Karyawan</label>
+                            <select class="form-select" id="nik">
+                                <option selected>Pilih Karyawan</option>
+                                @foreach ($pegawais as $pegawai)
+                                    <option value="{{ $pegawai['nik'] }}">{{ $pegawai['nik'] }} - {{ $pegawai['nama'] }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="lokasi_kantor">Lokasi Kantor</label>
+                            <select class="form-select" id="id_kantor">
+                                <option selected>Pilih Kantor</option>
+                                @foreach ($kantors as $kantor)
+                                    <option value="{{ $kantor['id'] }}">{{ $kantor['nama'] }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="jam_masuk">Jam Masuk</label>
+                            <input type="time" name="jam_masuk" id="jam_masuk" class="form-control"
+                                placeholder="Masukkan jam masuk" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="jam_keluar">Jam Keluar</label>
+                            <input type="time" name="jam_keluar" id="jam_keluar" class="form-control"
+                                placeholder="Masukkan jam keluar" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Tambah</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 @endsection
 
 @section('included-js')
     <script type="text/javascript">
         $(document).ready(function() {
-            var table = $('#listTable').DataTable({dom: 'lrt'});
-            table.column(2).data().unique().sort().each(function(d,j){
+            var table = $('#listTable').DataTable({
+                dom: 'lrt'
+            });
+            table.column(2).data().unique().sort().each(function(d, j) {
                 $('#filterNIK').append('<option value="' + d + '">' + d + '</option')
             });
-            table.column(3).data().unique().sort().each(function(d,j){
+            table.column(3).data().unique().sort().each(function(d, j) {
                 $('#filterKantor').append('<option value="' + d + '">' + d + '</option')
             });
-            $('#filterTanggal').on('change', function(){
-                // var date = $(this).val();
+            $('#filterTanggal').on('change', function() {
                 table.column(1).search(this.value).draw();
             });
-            $('#filterNIK').on('change', function(){
+            $('#filterNIK').on('change', function() {
                 table.column(2).search(this.value).draw();
             });
-            $('#filterKantor').on('change', function(){
+            $('#filterKantor').on('change', function() {
                 table.column(3).search(this.value).draw();
             });
-            $('#filterKategori').on('change', function(){
+            $('#filterKategori').on('change', function() {
                 table.column(6).search(this.value).draw();
             });
-            
-            $('#resetButton').click(function(){
+
+            $('#resetButton').click(function() {
                 $('#filterKategori').prop('selectedIndex', 0);
                 $('#filterNIK').prop('selectedIndex', 0);
-                table.columns([0,1,2,3,4,5,6,7,8]).search('').draw();
+                table.columns([0, 1, 2, 3, 4, 5, 6, 7, 8]).search('').draw();
             });
 
             $('#insertDataAbsen').on('submit', function(e) {
@@ -183,7 +184,7 @@ $lastIterationNumber = 0;
                 let jam_masuk = $('#jam_masuk').val();
                 let jam_keluar = $('#jam_keluar').val();
                 console.log(tanggal);
-                if (tanggal != "" && nik != "" && id_kantor != "" && jam_masuk != "" && jam_keluar != ""){
+                if (tanggal != "" && nik != "" && id_kantor != "" && jam_masuk != "" && jam_keluar != "") {
                     $.ajax({
                         method: 'POST',
                         url: "/presensi",
@@ -197,8 +198,6 @@ $lastIterationNumber = 0;
                             jam_masuk: jam_masuk,
                             jam_keluar: jam_keluar,
                         },
-                        // data: form,
-                        // dataType: 'json',
                         success: function(response) {
                             // console.log(response);
                             data = JSON.parse(response);
@@ -209,9 +208,8 @@ $lastIterationNumber = 0;
                                     title: 'Berhasil tambah data presensi',
                                     text: "Data presensi ditambahkan",
                                 }).then(function() {
-                                    location.href = "/presensi";        
+                                    location.href = "/presensi";
                                 });
-                                // showList($('table tr').length, response.message, $('#nama_kategori').val());
                             } else {
                                 Swal.fire({
                                     icon: 'error',
@@ -219,20 +217,17 @@ $lastIterationNumber = 0;
                                     text: data.message,
                                 });
                             }
-                            // $('#tambahKategoriModal').modal('hide');
-                            // $('#insertKategori')[0].reset();
                         },
                         error: function(request, status, error) {
-                            console.log(error);
-                            // Swal.fire({
-                            //     icon: 'error',
-                            //     title: 'Gagal tambah kategori',
-                            //     text: data.message,
-                            // });
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal tambah kategori',
+                                text: data.message,
+                            });
 
                         }
                     });
-            }
+                }
             });
             $(document).on('click', '.delete', function(event) {
                 event.preventDefault();
