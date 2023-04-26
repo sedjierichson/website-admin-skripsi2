@@ -31,8 +31,13 @@ class LoginController extends Controller
         ]);
 
         if ($response->successful()) {
-            $request->session()->put('user', $request['nik']);
-            return $response;
+            $response2 = Http::get("http://127.0.0.1:8888/api-presensi/api-presensi/api/pegawai.php?nik=".$request['nik'])->collect();
+            if ($response2['data']['is_admin'] == 1) {
+                $request->session()->put('user', $request['nik']);
+                return $response;
+            } else {
+                return json_encode(['status' => 2, 'message' => "tidak punya akses admin"]);
+            }
         } else {
             return json_encode(['status' => 0, 'message' => $this->serverErrorMsg]);
         }

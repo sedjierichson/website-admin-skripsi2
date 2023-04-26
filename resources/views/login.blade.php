@@ -122,8 +122,15 @@
                     success: function(response) {
                         console.log(response);
                         let data = JSON.parse(response);
+                        // console.log(data);
                         if (data.status == 1) {
                             location.href = "/home";
+                        } else if (data.status == 2) {
+                            Swal.fire({
+                                title: 'Error',
+                                text: "Anda tidak mempunyai hak akses sebagai admin",
+                                icon: 'error'
+                            });
                         } else {
                             console.log(data.message);
                             Swal.fire({
