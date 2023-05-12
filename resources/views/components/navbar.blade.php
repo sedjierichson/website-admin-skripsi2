@@ -33,10 +33,11 @@
                         Perizinan
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="pulangawal">Pulang Cepat</a></li>
-                        <li><a class="dropdown-item" href="meninggalkanlokasikerja">Meninggalkan Lokasi Kerja</a></li>
-                        <li><a class="dropdown-item" href="surattugas">Surat Tugas</a></li>
-                        <li><a class="dropdown-item" href="tidakpresensi">Tidak Presensi</a></li>
+                        <li><a class="dropdown-item" href="perizinan/pulangawal">Pulang Cepat</a></li>
+                        <li><a class="dropdown-item" href="perizinan/meninggalkanlokasikerja">Meninggalkan Lokasi
+                                Kerja</a></li>
+                        <li><a class="dropdown-item" href="perizinan/surattugas">Surat Tugas</a></li>
+                        <li><a class="dropdown-item" href="perizinan/tidakpresensi">Tidak Presensi</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
