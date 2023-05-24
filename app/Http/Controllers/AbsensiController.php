@@ -103,7 +103,7 @@ class AbsensiController extends Controller
         }
     }
 
-    public function showHistoryKeluarMasuk(string $nik, string $tanggal)
+    public function showHistoryKeluarMasukFilter(string $nik, string $tanggal)
     {
         $response4 = Http::get("http://127.0.0.1:8888/api-presensi/api-presensi/api/presensi.php?is_history=1")->collect();
         $param = [
@@ -113,6 +113,6 @@ class AbsensiController extends Controller
             'tanggal' => $tanggal,
             'historyHarians' => $response4['data']
         ];
-        return \view('tableHistory', $param);
+        return \view('tableHistoryFilter', $param);
     }
 }

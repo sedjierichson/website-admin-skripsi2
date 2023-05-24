@@ -142,46 +142,6 @@
             </div>
         </div>
     </div>
-
-    {{-- <div class="modal fade" id="historyHarianModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Detail History Keluar Masuk</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form name="form" action="" method="get">
-                        <input type="text" name="tanggal" id="tanggalHistory">
-                    </form>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Jam Keluar</th>
-                                <th>Jam Kembali</th>
-                            </tr>
-                        </thead>
-                        <tbody id="bodyHistory">
-                            @foreach ($historyHarians as $data)
-                                @if ($data['tanggal'] == '2023-05-07')
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        @php
-                                            $lastIterationNumber = $loop->iteration;
-                                        @endphp
-                                        <td>{{ $data['jam_keluar'] }}</td>
-                                        <td>{{ $data['jam_masuk'] }}</td>
-                                    </tr>
-                                @endif
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div> --}}
 @endsection
 
 @section('included-js')
@@ -269,73 +229,6 @@
                     });
                 }
             });
-
-            // History Data
-            // var editEvent;
-            // $(document).on('click', '.edit', function(event) {
-            //     event.preventDefault();
-            //     editEvent = event;
-            //     var tanggal = $(this).data('tanggal');
-            //     var nik = $(this).data('nik');
-            //     console.log(tanggal);
-            //     console.log(nik);
-
-            // $.ajax({
-            //     method: 'GET',
-            //     url: "/presensi",
-            //     headers: {
-            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //     },
-            //     data: {
-            //         tanggal: tanggal,
-            //         nik: nik,
-            //         id_kantor: id_kantor,
-            //         jam_masuk: jam_masuk,
-            //         jam_keluar: jam_keluar,
-            //     },
-            //     success: function(response) {
-            //         // console.log(response);
-            //         data = JSON.parse(response);
-            //         console.log(data);
-            //         if (data.status == 1) {
-            //             Swal.fire({
-            //                 icon: 'success',
-            //                 title: 'Berhasil tambah data presensi',
-            //                 text: "Data presensi ditambahkan",
-            //             }).then(function() {
-            //                 location.href = "/presensi";
-            //             });
-            //         } else {
-            //             Swal.fire({
-            //                 icon: 'error',
-            //                 title: 'Gagal tambah data absen',
-            //                 text: data.message,
-            //             });
-            //         }
-            //     },
-            //     error: function(request, status, error) {
-            //         Swal.fire({
-            //             icon: 'error',
-            //             title: 'Gagal tambah kategori',
-            //             text: data.message,
-            //         });
-
-            //     }
-            // });
-            // $('#tanggalHistory').val(tanggal);
-            // var x =
-            //     '@foreach ($historyHarians as $data) @if ($data['tanggal'] == '2023-05-07') <tr> <td>{{ $loop->iteration }}</td> @php $lastIterationNumber = $loop->iteration; @endphp <td>{{ $data['jam_keluar'] }}</td> <td>{{ $data['jam_masuk'] }}</td> </tr> @endif @endforeach';
-            // console.log(tanggal);
-            // console.log(x);
-            // $('#historyHarianModal #tanggalHistory').val($(this).data('tanggal'));
-            // var x =
-            //     '@foreach ($historyHarians as $data) @if ($data['tanggal'] == ' + tanggal + ') <tr> <td>{{ $loop->iteration }}</td> @php $lastIterationNumber = $loop->iteration; @endphp <td>{{ $data['jam_keluar'] }}</td> <td>{{ $data['jam_masuk'] }}</td> </tr> @endif @endforeach';
-            // var a = '<a> aaaa </a>'
-            // $('#bodyHistory').append(x);
-
-            // $('#historyHarianModal').modal('show');
-            // });
-
 
             $(document).on('click', '.delete', function(event) {
                 event.preventDefault();

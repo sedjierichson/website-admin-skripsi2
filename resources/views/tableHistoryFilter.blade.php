@@ -24,6 +24,7 @@
                 <tr>
                     <th scope="col">Jam Keluar</th>
                     <th scope="col">Jam Kembali</th>
+                    <th scope="col">Durasi</th>
                 </tr>
             </thead>
             <tbody id="memberKategori">
@@ -32,6 +33,7 @@
                         <tr>
                             <td>{{ $data['jam_keluar'] }}</td>
                             <td>{{ $data['jam_masuk'] }}</td>
+                            <td>{{ $data['durasi'] }}</td>
                         </tr>
                     @endif
                 @endforeach
