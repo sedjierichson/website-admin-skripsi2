@@ -25,7 +25,7 @@ class LoginController extends Controller
     }
     public function loginAkun(Request $request)
     {
-        $response = Http::asForm()->post("http://127.0.0.1:8888/contoh-api-rutan/contoh-api-rutan/api/pegawai.php", [
+        $response = Http::asForm()->post("https://rutan.tech/temp_ot_progresearch/api/pegawai.php", [
             "nik" => $request['nik'],
             "password" => $request['password']
         ]);
