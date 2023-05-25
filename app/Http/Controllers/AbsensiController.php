@@ -103,7 +103,23 @@ class AbsensiController extends Controller
         }
     }
 
-    public function showHistoryKeluarMasukFilter(string $nik, string $tanggal)
+    public function showHistoryKeluarMasukFilter(string $nik=null, string $tanggal=null)
+    {
+        // $response4 = Http::get("http://127.0.0.1:8888/api-presensi/api-presensi/api/presensi.php?is_history=1")->collect();
+        $response4 = Http::get("http://127.0.0.1:8888/api-presensi/api-presensi/api/presensi.php?nik_history=$nik&tanggal_history=$tanggal")->collect();
+        $pegawai = Http::get("http://127.0.0.1:8888/api-presensi/api-presensi/api/pegawai.php?")->collect();
+        $param = [
+            'title' => 'Data Beacon',
+            'navbar' => 'beacon',
+            'nik' => $nik,
+            'listNIK' => $pegawai['data'],
+            'tanggal' => $tanggal,
+            'historyHarians' => $response4['data']
+        ];
+        return \view('tableHistoryFilter', $param);
+    }
+
+    public function showHistoryKeluarMasuk(string $nik=null, string $tanggal=null)
     {
         $response4 = Http::get("http://127.0.0.1:8888/api-presensi/api-presensi/api/presensi.php?is_history=1")->collect();
         $pegawai = Http::get("http://127.0.0.1:8888/api-presensi/api-presensi/api/pegawai.php?")->collect();

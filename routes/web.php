@@ -47,7 +47,10 @@ Route::middleware('session.has.user')->group(function () {
     Route::resource('codelogin', CodeLoginController::class);
     Route::resource('jamkerja', JamKerjaController::class);
     Route::get('template/{nama}/{uuid}', [BeaconController::class, "showTemplate"])->name('halaman.template');
+    Route::get('historyKeluarMasuk/', [AbsensiController::class, "showHistoryKeluarMasuk"])->name('halaman.history');
     Route::get('historyKeluarMasuk/{nik}/{tanggal}', [AbsensiController::class, "showHistoryKeluarMasukFilter"])->name('halaman.history');
+    Route::get('historyKeluarMasuk/nik={nik}', [AbsensiController::class, "showHistoryKeluarMasukFilter"])->name('halaman.history');
+    Route::get('historyKeluarMasuk/tanggal={tanggal}', [AbsensiController::class, "showHistoryKeluarMasukFilter"])->name('halaman.history');
     
     Route::get('/perizinan', function(){
         return view('perizinan.tipeizin', [
