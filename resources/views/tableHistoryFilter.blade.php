@@ -33,11 +33,13 @@
 
         <div class="col">
             <p>Tanggal Awal : </p>
-            <input type="date" class="form-control" id="filterTanggalAwal" placeholder="Pilih Tanggal Awal">
+            <input type="date" class="form-control date-range-filter" id="filterTanggalAwal"
+                placeholder="Pilih Tanggal Awal">
         </div>
         <div class="col">
             <p>Tanggal Akhir : </p>
-            <input type="date" class="form-control" id="filterTanggalAkhir" placeholder="Pilih Tanggal Akhir">
+            <input type="date" class="form-control date-range-filter" id="filterTanggalAkhir"
+                placeholder="Pilih Tanggal Akhir">
         </div>
         <div class="col">
             <p>Pilih NIK : </p>
@@ -69,37 +71,6 @@
             </thead>
             <tbody id="memberKategori">
                 @foreach ($historyHarians as $data)
-                    {{-- @if (isset($nik) && isset($tanggal))
-                        @if ($data['nik'] == $nik && $data['tanggal'] == $tanggal)
-                            <tr>
-                                <td>{{ $data['tanggal'] }}</td>
-                                <td>{{ $data['nik'] }} - {{ $data['nama'] }}</td>
-                                <td>{{ $data['jam_keluar'] }}</td>
-                                <td>{{ $data['jam_masuk'] }}</td>
-                                <td>{{ $data['durasi'] }}</td>
-                            </tr>
-                        @endif --}}
-                    {{-- @elseif (isset($nik))
-                        @if ($data['nik'] == $nik)
-                            <tr>
-                                <td>{{ $data['tanggal'] }}</td>
-                                <td>{{ $data['nik'] }} - {{ $data['nama'] }}</td>
-                                <td>{{ $data['jam_keluar'] }}</td>
-                                <td>{{ $data['jam_masuk'] }}</td>
-                                <td>{{ $data['durasi'] }}</td>
-                            </tr>
-                        @endif
-                    @elseif (isset($tanggal))
-                        @if ($data['tanggal'] == $tanggal)
-                            <tr>
-                                <td>{{ $data['tanggal'] }}</td>
-                                <td>{{ $data['nik'] }} - {{ $data['nama'] }}</td>
-                                <td>{{ $data['jam_keluar'] }}</td>
-                                <td>{{ $data['jam_masuk'] }}</td>
-                                <td>{{ $data['durasi'] }}</td>
-                            </tr>
-                        @endif --}}
-                    {{-- @else --}}
                     <tr>
                         <td>{{ $data['tanggal'] }}</td>
                         <td>{{ $data['nik'] }} - {{ $data['nama'] }}</td>
@@ -111,22 +82,15 @@
                     {{-- @endif --}}
                 @endforeach
             </tbody>
-            {{-- <tfoot>
-                <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </tfoot> --}}
         </table>
     </div>
 @endsection
 
 @section('included-js')
     <script type="text/javascript">
+        if (!window.moment) {
+            document.write('<script src="assets/plugins/moment/moment.min.js"><\/script>');
+        }
         $(document).ready(function() {
             var totalAmount = 0;
             var total = 0;
@@ -159,6 +123,21 @@
                 console.log(total);
                 $('#durasi').text(secondsTimeSpanToHMS(total));
             }
+            $.fn.dataTable.ext.search.push(
+                function(settings, data, dataIndex) {
+                    var min = $('#filterTanggalAwal').val();
+                    var max = $('#filterTanggalAkhir').val();
+                    var createdAt = data[0] || 0;
+
+                    if (
+                        (min == "" || max == "") ||
+                        (moment(createdAt).isSameOrAfter(min) && moment(createdAt).isSameOrBefore(max))
+                    ) {
+                        return true;
+                    }
+                    return false;
+                }
+            );
             calculate();
 
             $('#filterNIK').on('change', function() {
@@ -170,9 +149,24 @@
                 table.column(0).search(this.value).draw();
                 calculate();
             });
+            $('#filterTanggalAkhir').click(function() {
+                table.search('').columns().search('').draw();
+            });
+            $('#filterTanggalAkhir').on('change', function() {
+                table.draw();
+                calculate();
+            });
+            // $('.date-range-filter').on('change', function() {
+            //     table.draw();
+            //     calculate();
+            // });
 
             $('#resetButton').click(function() {
-                location.href = "/historyKeluarMasuk";
+                $('#filterNIK').val('');
+                $('#filterTanggalAwal').val('');
+                $('#filterTanggalAkhir').val('');
+                table.search('').columns().search('').draw();
+                // location.href = "/historyKeluarMasuk";
             });
 
         });
