@@ -162,11 +162,11 @@
             // });
 
             $('#resetButton').click(function() {
-                $('#filterNIK').val('');
-                $('#filterTanggalAwal').val('');
-                $('#filterTanggalAkhir').val('');
-                table.search('').columns().search('').draw();
-                // location.href = "/historyKeluarMasuk";
+                // $('#filterNIK').val('');
+                // $('#filterTanggalAwal').val('');
+                // $('#filterTanggalAkhir').val('');
+                // table.search('').columns().search('').draw();
+                location.href = "/historyKeluarMasuk";
             });
 
         });

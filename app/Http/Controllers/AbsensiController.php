@@ -109,8 +109,8 @@ class AbsensiController extends Controller
         $response4 = Http::get("http://127.0.0.1:8888/api-presensi/api-presensi/api/presensi.php?nik_history=$nik&tanggal_history=$tanggal")->collect();
         $pegawai = Http::get("http://127.0.0.1:8888/api-presensi/api-presensi/api/pegawai.php?")->collect();
         $param = [
-            'title' => 'Data Beacon',
-            'navbar' => 'beacon',
+            'title' => 'Data Keluar Masuk',
+            'navbar' => 'absensi',
             'nik' => $nik,
             'listNIK' => $pegawai['data'],
             'tanggal' => $tanggal,
@@ -124,8 +124,8 @@ class AbsensiController extends Controller
         $response4 = Http::get("http://127.0.0.1:8888/api-presensi/api-presensi/api/presensi.php?is_history=1")->collect();
         $pegawai = Http::get("http://127.0.0.1:8888/api-presensi/api-presensi/api/pegawai.php?")->collect();
         $param = [
-            'title' => 'Data Beacon',
-            'navbar' => 'beacon',
+            'title' => 'Data Keluar Masuk',
+            'navbar' => 'absensi',
             'nik' => $nik,
             'listNIK' => $pegawai['data'],
             'tanggal' => $tanggal,
