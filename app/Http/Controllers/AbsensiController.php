@@ -114,7 +114,7 @@ class AbsensiController extends Controller
             'nik' => $nik,
             'listNIK' => $pegawai['data'],
             'tanggal' => $tanggal,
-            'historyHarians' => $response4['data']
+            'historyHarians' => $response4['data'],
         ];
         return \view('tableHistoryFilter', $param);
     }

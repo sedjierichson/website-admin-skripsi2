@@ -17,6 +17,18 @@
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h3>Data History Keluar Masuk Presensi Karyawan</h3>
     </div>
+    {{-- @if (isset($durasi)) --}}
+    <div class="row">
+        <div class="col-2">
+
+            <h5>Durasi Total Keluar :</h5>
+        </div>
+        <div class="col">
+
+            <h5 id="durasi"></h5>
+        </div>
+    </div>
+    {{-- @endif --}}
     <div class="row">
 
         <div class="col">
@@ -51,6 +63,7 @@
                     <th scope="col">NIK - Nama</th>
                     <th scope="col">Jam Keluar</th>
                     <th scope="col">Jam Kembali</th>
+                    <th scope="col">Durasi</th>
                     <th scope="col">Durasi</th>
                 </tr>
             </thead>
@@ -93,10 +106,21 @@
                         <td>{{ $data['jam_keluar'] }}</td>
                         <td>{{ $data['jam_masuk'] }}</td>
                         <td>{{ $data['durasi'] }}</td>
+                        <td>{{ $data['detik'] }}</td>
                     </tr>
                     {{-- @endif --}}
                 @endforeach
             </tbody>
+            {{-- <tfoot>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </tfoot> --}}
         </table>
     </div>
 @endsection
@@ -104,25 +128,53 @@
 @section('included-js')
     <script type="text/javascript">
         $(document).ready(function() {
-            // table.column(1).search(url.get('nik'));
+            var totalAmount = 0;
+            var total = 0;
             var table = $('#listTable').DataTable({
-                dom: 'rtip'
+                columnDefs: [{
+                    target: 5,
+                    visible: false
+                }],
+                dom: 'rtip',
             });
+
+            function secondsTimeSpanToHMS(s) {
+                var h = Math.floor(s / 3600); //Get whole hours
+                s -= h * 3600;
+                var m = Math.floor(s / 60); //Get remaining minutes
+                s -= m * 60;
+                return h + ":" + (m < 10 ? '0' + m : m) + ":" + (s < 10 ? '0' + s :
+                    s); //zero padding on minutes and seconds
+            }
+
+            function calculate() {
+
+                var durasi = table.column(5, {
+                    filter: 'applied'
+                }).data();
+                total = 0;
+                for (var i = 0; i < durasi.length; i++) {
+                    total += parseFloat(durasi[i]);
+                }
+                console.log(total);
+                $('#durasi').text(secondsTimeSpanToHMS(total));
+            }
+            calculate();
 
             $('#filterNIK').on('change', function() {
                 table.column(1).search(this.value).draw();
+                calculate();
             });
-            // $('#filterTanggalAwal').on('change', function() {
-            //     location.href = "/historyKeluarMasuk/tanggal=" + this.value;
-            // });
+
             $('#filterTanggalAwal').on('change', function() {
                 table.column(0).search(this.value).draw();
+                calculate();
             });
 
             $('#resetButton').click(function() {
-                $('#filterNIK').prop('selectedIndex', 0);
-                table.columns([0, 1, 2, 3, 4]).search('').draw();
+                location.href = "/historyKeluarMasuk";
             });
+
         });
     </script>
 @endsection
