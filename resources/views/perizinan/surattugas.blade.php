@@ -150,12 +150,13 @@
                 table.column(1).search(this.value).draw();
             });
             $('#filterStatus').on('change', function() {
-                    table.column(9)).search(this.value).draw();
-            }); $('#resetButton').click(function() {
-            $('#filterNIK').prop('selectedIndex', 0);
-            $('#filterStatus').prop('selectedIndex', 0);
-            table.columns([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]).search('').draw();
-        });
+                table.column(9).search(this.value).draw();
+            });
+            $('#resetButton').click(function() {
+                $('#filterNIK').prop('selectedIndex', 0);
+                $('#filterStatus').prop('selectedIndex', 0);
+                table.columns([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]).search('').draw();
+            });
         });
         //Add Data
         $('#insertDataIzin').on('submit', function(e) {

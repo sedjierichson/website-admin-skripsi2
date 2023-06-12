@@ -43,7 +43,7 @@ class MeninggalkanKantorController extends Controller
     public function store(Request $request)
     {
         // return $request;
-        $response = Http::get("http://127.0.0.1:8888/contoh-api-rutan/contoh-api-rutan/api/pegawai.php?nik=".$request['nik']);
+        $response = Http::get("http://rutan.tech/temp_ot_progresearch/api/pegawai.php?nik=".$request['nik']);
         $collection = $response->collect();
         $response2 = Http::asForm()->post('http://127.0.0.1:8888/api-presensi/api-presensi/api/detail_izin.php', [
             'nik_pegawai' => $request['nik'],
