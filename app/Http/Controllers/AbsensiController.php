@@ -55,8 +55,11 @@ class AbsensiController extends Controller
             'id_kantor' => $request['id_kantor'],
             'tanggal' => $request['tanggal'],
             'jam_masuk' => $request['jam_masuk'],
+            'jam_keluar' => $request['jam_keluar'],
             'image' => 'admin',
             'img_name' => 'adminawd',
+            'kategori' => 'E',
+            'is_history' => 0
         ]);
         
         if ($response->successful()) {
