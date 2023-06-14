@@ -35,6 +35,7 @@
                 <option value="B">B - Masuk Telat & Pulang Tepat Waktu</option>
                 <option value="C">C - Masuk Tepat Waktu & Pulang Cepat</option>
                 <option value="D">D - Masuk Telat & Pulang Cepat</option>
+                <option value="E">E - Izin Lupa Absen / Ditambahkan HR</option>
             </select>
 
         </div>
