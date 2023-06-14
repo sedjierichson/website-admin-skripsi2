@@ -108,10 +108,8 @@ class AbsensiController extends Controller
 
     public function showHistoryKeluarMasukFilter(string $nik=null, string $tanggal=null)
     {
-        // $response4 = Http::get("http://127.0.0.1:8888/api-presensi/api-presensi/api/presensi.php?is_history=1")->collect();
         $response4 = Http::get("http://127.0.0.1:8888/api-presensi/api-presensi/api/presensi.php?nik_history=$nik&tanggal_history=$tanggal")->collect();
         $pegawai = Http::get("http://127.0.0.1:8888/api-presensi/api-presensi/api/pegawai.php?")->collect();
-        // return ($response4['data2']['jam_masuk']);
         $param = [
             'title' => 'Data Keluar Masuk',
             'navbar' => 'absensi',
