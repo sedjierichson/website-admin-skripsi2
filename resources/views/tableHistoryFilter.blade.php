@@ -27,8 +27,20 @@
             <h5 id="durasi"></h5>
         </div>
     </div>
+    @if (isset($filter))
+        <div class="row">
+            <div class="col">
+                <h5>Jam Masuk : {{ $historyHarians[0]['jam_masuk'] }}</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h5>Jam Pulang : {{ $historyHarians[0]['jam_keluar'] }}</h5>
+            </div>
+        </div>
+    @endif
 
-    <div class="row">
+    <div class="row mt-3">
 
         <div class="col">
             <p>Tanggal Awal : </p>
@@ -51,9 +63,8 @@
         </div>
 
         <div class="col">
-            <p></p>
+            <p style="color: white;">.</p>
             <button class="btn btn-secondary" id="resetButton">Reset</button>
-            <button class="btn btn-primary" id="searchButton">Cari</button>
         </div>
     </div>
     <div class="table-responsive col-xl justify-content-center mb-5">
@@ -62,10 +73,13 @@
                 <tr>
                     <th scope="col">Tanggal Presensi</th>
                     <th scope="col">NIK - Nama</th>
-                    <th scope="col">Jam Masuk - Jam Keluar</th>
-                    <th scope="col">History Keluar Masuk</th>
+                    <th scope="col">Jam Keluar</th>
+                    <th scope="col">Jam Kembali</th>
                     <th scope="col">Durasi</th>
                     <th scope="col">Durasi</th>
+                    @if (!isset($filter))
+                        <th scope="col">Aksi</th>
+                    @endif
                 </tr>
             </thead>
             <tbody id="memberKategori">
@@ -73,14 +87,65 @@
                     <tr>
                         <td>{{ $data['tanggal'] }}</td>
                         <td>{{ $data['nik'] }} - {{ $data['nama'] }}</td>
-                        <td>{{ $data['jam_masuk'] }} - {{ $data['jam_keluar'] }}</td>
-                        <td>{{ $data['jam_keluar_history'] }} - {{ $data['jam_masuk_history'] }}</td>
+                        <td>{{ $data['jam_keluar_history'] }}</td>
+                        <td>{{ $data['jam_masuk_history'] }}</td>
                         <td>{{ $data['durasi'] }}</td>
                         <td>{{ $data['detik'] }}</td>
+                        @if (!isset($filter))
+                            <td><a class="btn btn-warning view" data-nama="{{ $data['nama'] }}"
+                                    data-nik="{{ $data['nik'] }}" data-tanggal="{{ $data['tanggal'] }}"
+                                    data-jammasuk="{{ $data['jam_masuk'] }}" data-jampulang="{{ $data['jam_keluar'] }}"><i
+                                        class="fas fa-info-circle"></a></td>
+                        @endif
                     </tr>
                 @endforeach
             </tbody>
         </table>
+    </div>
+@endsection
+
+@section('other')
+    <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Info Presensi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="infoPresensi">
+                        <div class="mb-3">
+                            <label for="nama">Nama Kantor</label>
+                            <input type="text" name="nama" id="nama" class="form-control"
+                                placeholder="Masukkan nama kantor" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="nik">NIK</label>
+                            <input type="text" name="nik" id="nik" class="form-control"
+                                placeholder="Masukkan nik" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="tanggal">Tanggal</label>
+                            <input type="text" name="tanggal" id="tanggal" class="form-control"
+                                placeholder="Masukkan tanggal" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Jam Masuk">Jam Masuk Kantor</label>
+                            <input type="text" name="Jam Masuk" id="jam_masuk" class="form-control"
+                                placeholder="Masukkan Jam Masuk" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Jam Pulang">Jam Pulang kantor</label>
+                            <input type="text" name="Jam Pulang" id="jam_pulang" class="form-control"
+                                placeholder="Masukkan Jam Pulang" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 
@@ -158,7 +223,17 @@
             $('#resetButton').click(function() {
                 location.href = "/historyKeluarMasuk";
             });
-
+            var editEvent;
+            $(document).on('click', '.view', function(event) {
+                event.preventDefault();
+                editEvent = event;
+                $('#infoModal').modal('show');
+                $('#infoPresensi #nama').val($(this).data('nama'));
+                $('#infoPresensi #nik').val($(this).data('nik'));
+                $('#infoPresensi #tanggal').val($(this).data('tanggal'));
+                $('#infoPresensi #jam_masuk').val($(this).data('jammasuk'));
+                $('#infoPresensi #jam_pulang').val($(this).data('jampulang'));
+            });
         });
     </script>
 @endsection

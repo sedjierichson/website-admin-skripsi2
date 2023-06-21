@@ -13,7 +13,7 @@ class AbsensiController extends Controller
      */
     public function index()
     {
-        $response = Http::get("http://127.0.0.1:8888/api-presensi/api-presensi/api/presensi.php?is_history=0");
+        $response = Http::get("http://127.0.0.1:8888/api-presensi/api-presensi/api/presensi.php");
         $response2 = Http::get("http://127.0.0.1:8888/api-presensi/api-presensi/api/pegawai.php");
         $response3 = Http::get("http://127.0.0.1:8888/api-presensi/api-presensi/api/kantor.php");
         $response4 = Http::get("http://127.0.0.1:8888/api-presensi/api-presensi/api/presensi.php?is_history=1");
@@ -117,6 +117,7 @@ class AbsensiController extends Controller
             'listNIK' => $pegawai['data'],
             'tanggal' => $tanggal,
             'historyHarians' => $response4['data'],
+            'filter' => ''
         ];
         return \view('tableHistoryFilter', $param);
     }
