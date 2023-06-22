@@ -67,41 +67,74 @@
             <button class="btn btn-secondary" id="resetButton">Reset</button>
         </div>
     </div>
-    <div class="table-responsive col-xl justify-content-center mb-5">
-        <table class="table table-bordered text-center" id="listTable">
-            <thead id="head">
-                <tr>
-                    <th scope="col">Tanggal Presensi</th>
-                    <th scope="col">NIK - Nama</th>
-                    <th scope="col">Jam Keluar</th>
-                    <th scope="col">Jam Kembali</th>
-                    <th scope="col">Durasi</th>
-                    <th scope="col">Durasi</th>
-                    @if (!isset($filter))
-                        <th scope="col">Aksi</th>
-                    @endif
-                </tr>
-            </thead>
-            <tbody id="memberKategori">
-                @foreach ($historyHarians as $data)
+    @if (isset($historyHarians))
+        <div class="table-responsive col-xl justify-content-center mb-5">
+            <table class="table table-bordered text-center" id="listTable">
+                <thead id="head">
                     <tr>
-                        <td>{{ $data['tanggal'] }}</td>
-                        <td>{{ $data['nik'] }} - {{ $data['nama'] }}</td>
-                        <td>{{ $data['jam_keluar_history'] }}</td>
-                        <td>{{ $data['jam_masuk_history'] }}</td>
-                        <td>{{ $data['durasi'] }}</td>
-                        <td>{{ $data['detik'] }}</td>
-                        @if (!isset($filter))
-                            <td><a class="btn btn-warning view" data-nama="{{ $data['nama'] }}"
-                                    data-nik="{{ $data['nik'] }}" data-tanggal="{{ $data['tanggal'] }}"
-                                    data-jammasuk="{{ $data['jam_masuk'] }}" data-jampulang="{{ $data['jam_keluar'] }}"><i
-                                        class="fas fa-info-circle"></a></td>
-                        @endif
+                        <th scope="col">Tanggal Presensi</th>
+                        <th scope="col">NIK - Nama</th>
+                        <th scope="col">Jam Masuk</th>
+                        <th scope="col">Jam Keluar</th>
+                        <th scope="col">Durasi</th>
+                        <th scope="col">Durasi</th>
+                        {{-- @if (!isset($filter))
+                        <th scope="col">Aksi</th>
+                    @endif --}}
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+                </thead>
+                <tbody id="memberKategori">
+                    @foreach ($historyHarians as $data)
+                        @if ($data['is_history'] == '0')
+                            <tr style="background-color: yellow">
+                                <td>{{ $data['tanggal'] }}</td>
+                                <td>{{ $data['nik'] }} - {{ $data['nama'] }}</td>
+                                <td>{{ $data['jam_masuk'] }}</td>
+                                <td>{{ $data['jam_keluar'] }}</td>
+                                <td>{{ $data['durasi'] }}</td>
+                                <td>{{ $data['detik'] }}</td>
+                                {{-- @if (!isset($filter))
+                                <td><a class="btn btn-warning view" data-nama="{{ $data['nama'] }}"
+                                        data-nik="{{ $data['nik'] }}" data-tanggal="{{ $data['tanggal'] }}"
+                                        data-jammasuk="{{ $data['jam_masuk'] }}"
+                                        data-jampulang="{{ $data['jam_keluar'] }}"><i class="fas fa-info-circle"></a></td>
+                            @endif --}}
+                            </tr>
+                        @elseif (isset($filter))
+                            <tr>
+                                <td>{{ $data['tanggal'] }}</td>
+                                <td>{{ $data['nik'] }} - {{ $data['nama'] }}</td>
+
+                                <td>{{ $data['jam_keluar_history'] }}</td>
+                                <td>{{ $data['jam_masuk_history'] }}</td>
+                                <td>{{ $data['durasi'] }}</td>
+                                <td>{{ $data['detik'] }}</td>
+                            </tr>
+                        @else
+                            <tr>
+                                <td>{{ $data['tanggal'] }}</td>
+                                <td>{{ $data['nik'] }} - {{ $data['nama'] }}</td>
+
+                                <td>{{ $data['jam_keluar'] }}</td>
+                                <td>{{ $data['jam_masuk'] }}</td>
+                                <td>{{ $data['durasi'] }}</td>
+                                <td>{{ $data['detik'] }}</td>
+                                {{-- @if (!isset($filter))
+                                <td><a class="btn btn-warning view" data-nama="{{ $data['nama'] }}"
+                                        data-nik="{{ $data['nik'] }}" data-tanggal="{{ $data['tanggal'] }}"
+                                        data-jammasuk="{{ $data['jam_masuk'] }}"
+                                        data-jampulang="{{ $data['jam_keluar'] }}"><i class="fas fa-info-circle"></a></td>
+                            @endif --}}
+                            </tr>
+                        @endif
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    @else
+        <h1>Data Tidak Ditemukan</h1>
+    @endif
+
 @endsection
 
 @section('other')

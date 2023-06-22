@@ -16,7 +16,7 @@ class AbsensiController extends Controller
         $response = Http::get("http://127.0.0.1:8888/api-presensi/api-presensi/api/presensi.php");
         $response2 = Http::get("http://127.0.0.1:8888/api-presensi/api-presensi/api/pegawai.php");
         $response3 = Http::get("http://127.0.0.1:8888/api-presensi/api-presensi/api/kantor.php");
-        $response4 = Http::get("http://127.0.0.1:8888/api-presensi/api-presensi/api/presensi.php?is_history=1");
+        // $response4 = Http::get("http://127.0.0.1:8888/api-presensi/api-presensi/api/presensi.php?is_history=1");
         $param = [
             'title' => 'Data Absensi',
             'navbar' => 'absensi',
@@ -25,12 +25,12 @@ class AbsensiController extends Controller
             $collection = $response->collect();
             $collection2 = $response2->collect();
             $collection3 = $response3->collect();
-            $collection4 = $response4->collect();
+            // $collection4 = $response4->collect();
             $param += [
                 'datas' => $collection['data'],
                 'pegawais' => $collection2['data'],
                 'kantors' => $collection3['data'],
-                'historyHarians' => $collection4['data']
+                // 'historyHarians' => $collection4['data']
             ];
             return \view('absensi', $param);
         }
@@ -116,9 +116,14 @@ class AbsensiController extends Controller
             'nik' => $nik,
             'listNIK' => $pegawai['data'],
             'tanggal' => $tanggal,
-            'historyHarians' => $response4['data'],
-            'filter' => ''
+            // 'historyHarians' => $response4['data'],
+            
         ];
+        if(isset($response4['data'])){
+            $param += ['historyHarians' => $response4['data'],'filter' => ''];
+        } else {
+            $param += ['errormsg' => 'Data tidak ditemukan'];
+        }
         return \view('tableHistoryFilter', $param);
     }
 
@@ -129,11 +134,10 @@ class AbsensiController extends Controller
         $param = [
             'title' => 'Data Keluar Masuk',
             'navbar' => 'absensi',
-            'nik' => $nik,
             'listNIK' => $pegawai['data'],
-            'tanggal' => $tanggal,
             'historyHarians' => $response4['data']
         ];
+        
         return \view('tableHistoryFilter', $param);
     }
 }
