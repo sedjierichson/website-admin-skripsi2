@@ -92,7 +92,7 @@
                                 <td>{{ $data['jam_masuk'] }}</td>
                                 <td>{{ $data['jam_keluar'] }}</td>
                                 <td>{{ $data['durasi'] }}</td>
-                                <td>{{ $data['detik'] }}</td>
+                                <td>{{ $data['detik'] = 0 }}</td>
                                 {{-- @if (!isset($filter))
                                 <td><a class="btn btn-warning view" data-nama="{{ $data['nama'] }}"
                                         data-nik="{{ $data['nik'] }}" data-tanggal="{{ $data['tanggal'] }}"
