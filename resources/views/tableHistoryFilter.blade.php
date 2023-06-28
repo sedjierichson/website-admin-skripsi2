@@ -10,6 +10,10 @@
             background-color: #363636;
             color: #ffffff;
         }
+
+        .ct-active {
+            color: red;
+        }
     </style>
 @endsection
 
@@ -78,33 +82,23 @@
                         <th scope="col">Jam Keluar</th>
                         <th scope="col">Durasi</th>
                         <th scope="col">Durasi</th>
-                        {{-- @if (!isset($filter))
-                        <th scope="col">Aksi</th>
-                    @endif --}}
                     </tr>
                 </thead>
                 <tbody id="memberKategori">
                     @foreach ($historyHarians as $data)
-                        @if ($data['is_history'] == '0')
-                            <tr style="background-color: yellow">
-                                <td>{{ $data['tanggal'] }}</td>
-                                <td>{{ $data['nik'] }} - {{ $data['nama'] }}</td>
-                                <td>{{ $data['jam_masuk'] }}</td>
-                                <td>{{ $data['jam_keluar'] }}</td>
-                                <td>{{ $data['durasi'] }}</td>
-                                <td>{{ $data['detik'] = 0 }}</td>
-                                {{-- @if (!isset($filter))
-                                <td><a class="btn btn-warning view" data-nama="{{ $data['nama'] }}"
-                                        data-nik="{{ $data['nik'] }}" data-tanggal="{{ $data['tanggal'] }}"
-                                        data-jammasuk="{{ $data['jam_masuk'] }}"
-                                        data-jampulang="{{ $data['jam_keluar'] }}"><i class="fas fa-info-circle"></a></td>
-                            @endif --}}
-                            </tr>
-                        @elseif (isset($filter))
+                        {{-- @if ($data['is_datang_pulang'] == '1')
                             <tr>
                                 <td>{{ $data['tanggal'] }}</td>
                                 <td>{{ $data['nik'] }} - {{ $data['nama'] }}</td>
-
+                                <td class="jam-masuk">{{ $data['jam_masuk'] }}</td>
+                                <td>{{ $data['jam_keluar'] }}</td>
+                                <td>{{ $data['durasi'] }}</td>
+                                <td>{{ $data['detik'] = 0 }}</td>
+                            </tr> --}}
+                        @if (isset($filter))
+                            <tr>
+                                <td>{{ $data['tanggal'] }}</td>
+                                <td>{{ $data['nik'] }} - {{ $data['nama'] }}</td>
                                 <td>{{ $data['jam_keluar_history'] }}</td>
                                 <td>{{ $data['jam_masuk_history'] }}</td>
                                 <td>{{ $data['durasi'] }}</td>
@@ -114,17 +108,14 @@
                             <tr>
                                 <td>{{ $data['tanggal'] }}</td>
                                 <td>{{ $data['nik'] }} - {{ $data['nama'] }}</td>
-
+                                @if ($data['is_datang_pulang'] == 1)
+                                    <td>{{ $data['jam_masuk'] }}</td>
+                                @else
+                                    <td>{{ $data['jam_masuk'] }}</td>
+                                @endif
                                 <td>{{ $data['jam_keluar'] }}</td>
-                                <td>{{ $data['jam_masuk'] }}</td>
                                 <td>{{ $data['durasi'] }}</td>
                                 <td>{{ $data['detik'] }}</td>
-                                {{-- @if (!isset($filter))
-                                <td><a class="btn btn-warning view" data-nama="{{ $data['nama'] }}"
-                                        data-nik="{{ $data['nik'] }}" data-tanggal="{{ $data['tanggal'] }}"
-                                        data-jammasuk="{{ $data['jam_masuk'] }}"
-                                        data-jampulang="{{ $data['jam_keluar'] }}"><i class="fas fa-info-circle"></a></td>
-                            @endif --}}
                             </tr>
                         @endif
                     @endforeach
@@ -134,7 +125,6 @@
     @else
         <h1>Data Tidak Ditemukan</h1>
     @endif
-
 @endsection
 
 @section('other')
@@ -198,6 +188,7 @@
                 dom: 'rtip',
             });
 
+
             function secondsTimeSpanToHMS(s) {
                 var h = Math.floor(s / 3600); //Get whole hours
                 s -= h * 3600;
@@ -235,22 +226,29 @@
                 }
             );
             calculate();
-
             $('#filterNIK').on('change', function() {
                 table.column(1).search(this.value).draw();
                 calculate();
+                $('#listTable tbody tr:first').addClass('ct-active');
+                $('#listTable tbody tr:last').addClass('ct-active');
             });
 
             $('#filterTanggalAwal').on('change', function() {
                 table.column(0).search(this.value).draw();
                 calculate();
+                $('#listTable tbody tr:first').addClass('ct-active');
+                $('#listTable tbody tr:last').addClass('ct-active');
             });
             $('#filterTanggalAkhir').click(function() {
                 table.search('').columns().search('').draw();
+                $('#listTable tbody tr:first').addClass('ct-active');
+                $('#listTable tbody tr:last').addClass('ct-active');
             });
             $('#filterTanggalAkhir').on('change', function() {
                 table.draw();
                 calculate();
+                $('#listTable tbody tr:first').addClass('ct-active');
+                $('#listTable tbody tr:last').addClass('ct-active');
             });
 
             $('#resetButton').click(function() {
